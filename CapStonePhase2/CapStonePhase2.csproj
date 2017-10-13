@@ -197,6 +197,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InstructorsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -213,6 +214,10 @@
     <Compile Include="Migrations\201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.cs" />
     <Compile Include="Migrations\201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.Designer.cs">
       <DependentUpon>201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710131655474_added a completed column for students model and student_lectures model.cs" />
+    <Compile Include="Migrations\201710131655474_added a completed column for students model and student_lectures model.Designer.cs">
+      <DependentUpon>201710131655474_added a completed column for students model and student_lectures model.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -287,10 +292,16 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Students\Create.cshtml" />
-    <Content Include="Views\Students\Delete.cshtml" />
     <Content Include="Views\Students\Details.cshtml" />
     <Content Include="Views\Students\Edit.cshtml" />
     <Content Include="Views\Students\Index.cshtml" />
+    <Content Include="Views\Students\Lectures.cshtml" />
+    <Content Include="Views\Shared\_StudentLayout.cshtml" />
+    <Content Include="Views\Instructors\Create.cshtml" />
+    <Content Include="Views\Instructors\Delete.cshtml" />
+    <Content Include="Views\Instructors\Details.cshtml" />
+    <Content Include="Views\Instructors\Edit.cshtml" />
+    <Content Include="Views\Instructors\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -312,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.resx">
       <DependentUpon>201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710131655474_added a completed column for students model and student_lectures model.resx">
+      <DependentUpon>201710131655474_added a completed column for students model and student_lectures model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

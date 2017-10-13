@@ -14,6 +14,9 @@ namespace CapStonePhase2.Models
         [Display(Name = "Last Name:")]
         public string LastName { get; set; }
 
+        [Display(Name = "Number of Completed Lectures")]
+        public int CompletedLectures { get; set; }
+
         //temporary placeholder for the junction table
         public int LectureId { get; set; }
 

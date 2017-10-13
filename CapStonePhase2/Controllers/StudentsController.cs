@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CapStonePhase2.Models;
 
@@ -18,6 +14,17 @@ namespace CapStonePhase2.Controllers
         public ActionResult Index()
         {
             return View(db.Students.ToList());
+        }
+
+        public ActionResult Lectures(int studentid)
+        {
+            var Lectures = db.Lectures.ToList();
+
+            foreach (var lecture in Lectures)
+            {
+                lecture.StudentId = studentid;
+            }
+            return View();
         }
 
         // GET: Students/Details/5
@@ -38,7 +45,8 @@ namespace CapStonePhase2.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
-            return View();
+            Students NewStudent = new Students();
+            return View(NewStudent);
         }
 
         // POST: Students/Create
@@ -46,13 +54,13 @@ namespace CapStonePhase2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Students students)
         {
-            if (ModelState.IsValid)
+            if (students.Id == 0)
             {
                 db.Students.Add(students);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var NewStudent = db.Students.Last();
+                return RedirectToAction("Lectures", new { NewStudent.Id });
             }
-
             return View(students);
         }
 
@@ -80,7 +88,8 @@ namespace CapStonePhase2.Controllers
             {
                 db.Entry(students).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var ChangedStudent = db.Students.Find(students.Id);
+                return RedirectToAction("Lectures", new { studentid = ChangedStudent.Id } );
             }
             return View(students);
         }
@@ -97,18 +106,10 @@ namespace CapStonePhase2.Controllers
             {
                 return HttpNotFound();
             }
-            return View(students);
-        }
 
-        // POST: Students/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Students students = db.Students.Find(id);
             db.Students.Remove(students);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Lectures");
         }
 
         protected override void Dispose(bool disposing)
