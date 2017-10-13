@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.CodeDom.Compiler;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CapStonePhase2.Models
 {
@@ -30,6 +27,8 @@ namespace CapStonePhase2.Models
 
         [Display(Name = "Student Code File")]
         public string CodeFileName { get; set; }
+
+        public CompilerErrorCollection ListOfErrors { get; set; }
 
         [Display(Name = "Is the Code Error-free?")]
         public bool IsCodeCorrect { get; set; }

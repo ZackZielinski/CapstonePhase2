@@ -82,3 +82,5 @@ C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapSton
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.pdb
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.firstmigration.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.csproj.GenerateResource.Cache
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.createdStudentsLecturesInstructorsandStudents_Lecturesmodels.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.createdforeignKeysfromStudents_LecturestoStudentsandtoLectures.resources

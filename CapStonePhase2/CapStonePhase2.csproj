@@ -205,6 +205,14 @@
     <Compile Include="Migrations\201710131218104_first migration.Designer.cs">
       <DependentUpon>201710131218104_first migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710131403558_created Students, Lectures, Instructors, and Students_Lectures models.cs" />
+    <Compile Include="Migrations\201710131403558_created Students, Lectures, Instructors, and Students_Lectures models.Designer.cs">
+      <DependentUpon>201710131403558_created Students, Lectures, Instructors, and Students_Lectures models.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.cs" />
+    <Compile Include="Migrations\201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.Designer.cs">
+      <DependentUpon>201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -292,6 +300,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201710131218104_first migration.resx">
       <DependentUpon>201710131218104_first migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710131403558_created Students, Lectures, Instructors, and Students_Lectures models.resx">
+      <DependentUpon>201710131403558_created Students, Lectures, Instructors, and Students_Lectures models.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.resx">
+      <DependentUpon>201710131410069_created foreignKeys from Students_Lectures to Students and to Lectures.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
