@@ -32,8 +32,5 @@ namespace CapStonePhase2.Models
 
         [Display(Name = "Is the Code Error-free?")]
         public bool IsCodeCorrect { get; set; }
-
-        [Display(Name = "Completed")]
-        public bool CompletedCourse { get; set; }
     }
 }

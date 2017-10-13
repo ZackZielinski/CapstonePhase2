@@ -18,13 +18,24 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult Lectures(int studentid)
         {
-            var Lectures = db.Lectures.ToList();
+            var LectureList = db.Lectures.ToList();
 
-            foreach (var lecture in Lectures)
+            foreach(var Lecture in LectureList)
             {
-                lecture.StudentId = studentid;
+                Lecture.StudentId = studentid;
             }
-            return View();
+
+            return View(LectureList);
+        }
+
+        public ActionResult CompletedCourses(int studentid)
+        {
+            var Student = db.Students.Find(studentid);
+
+            var StudentCompletion = db.Students_Lectures.Include(z=>z.Lecture).Where(z => z.Student == Student && z.Lecture.CompletedCourse == true).ToList(); 
+            
+
+            return View(StudentCompletion);
         }
 
         // GET: Students/Details/5
@@ -59,7 +70,7 @@ namespace CapStonePhase2.Controllers
                 db.Students.Add(students);
                 db.SaveChanges();
                 var NewStudent = db.Students.Last();
-                return RedirectToAction("Lectures", new { NewStudent.Id });
+                return RedirectToAction("Lectures", new { studentid = NewStudent.Id });
             }
             return View(students);
         }

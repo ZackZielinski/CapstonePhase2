@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CapStonePhase2.Models
 {
@@ -17,10 +18,17 @@ namespace CapStonePhase2.Models
         [Display(Name = "Review Question:")]
         public string ReviewQuestion { get; set; }
 
+        [Display(Name = "Coded Example:")]
+        public string CodeExample { get; set; }
+
         [Display(Name = "Code Assignment:")]
         public string CodeAssignment { get; set; }
 
-        //temporary placeholder for junction table
+
+        [Display(Name = "Completed")]
+        public bool CompletedCourse { get; set; }
+
+        //Student Id placeholder
         public int StudentId { get; set; }
 
         public IList<Students_Lectures> Student_Lectures { get; set; }

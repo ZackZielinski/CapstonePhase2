@@ -17,7 +17,7 @@ namespace CapStonePhase2.Models
         [Display(Name = "Number of Completed Lectures")]
         public int CompletedLectures { get; set; }
 
-        //temporary placeholder for the junction table
+        //Lecture Id placeholder
         public int LectureId { get; set; }
 
         public IList<Students_Lectures> Students_Lecture { get; set; }

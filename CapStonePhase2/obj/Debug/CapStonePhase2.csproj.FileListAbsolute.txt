@@ -85,3 +85,5 @@ C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapSton
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.createdStudentsLecturesInstructorsandStudents_Lecturesmodels.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.createdforeignKeysfromStudents_LecturestoStudentsandtoLectures.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedacompletedcolumnforstudentsmodelandstudent_lecturesmodel.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedacodeexamplecolumninlectures.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.movedcompletionfromstudent_lecturemodeltolectures.resources

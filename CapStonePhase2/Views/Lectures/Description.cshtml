@@ -1,0 +1,28 @@
+﻿@model CapStonePhase2.Models.Students_Lectures
+
+@{
+    ViewBag.Title = "Description";
+}
+
+<h2>@Model.Lecture.Topic</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        @Html.DisplayFor(model => model.Lecture.Description)
+    </dl>
+
+    <dl class="dl-horizontal">
+        @Html.DisplayNameFor(model => model.Lecture.CodeExample)
+    </dl>
+
+    <dl class="dl-horizontal">
+        @Html.DisplayFor(model => model.Lecture.CodeExample);
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Review Question", "ReviewQuestion", new { studentid = Model.StudentId, lectureid = Model.LectureId }) |
+    @Html.ActionLink("Code Assignment", "CodeAssignment", new { studentid = Model.StudentId, lectureid = Model.LectureId })
+</p>
+

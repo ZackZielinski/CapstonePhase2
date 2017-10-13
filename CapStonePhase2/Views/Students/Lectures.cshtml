@@ -17,7 +17,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink(item.Topic, "Description", "Lectures", new { studentid = item.StudentId })
+            @Html.ActionLink(item.Topic, "Description", "Lectures", new { studentid = item.StudentId, lectureid = item.Id })
         </td>
     </tr>
 }
