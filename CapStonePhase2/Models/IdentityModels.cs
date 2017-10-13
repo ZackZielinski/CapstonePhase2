@@ -33,5 +33,9 @@ namespace CapStonePhase2.Models
         public DbSet<Students> Students { get; set; }
 
         public DbSet<Lectures> Lectures { get; set; }
+
+        public DbSet<Instructors> Instructors { get; set; }
+
+        public DbSet<Students_Lectures> Students_Lectures { get; set; }
     }
 }
