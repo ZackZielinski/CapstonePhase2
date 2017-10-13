@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CapStonePhase2.Models
 {
@@ -21,5 +22,8 @@ namespace CapStonePhase2.Models
 
         //temporary placeholder for junction table
         public int StudentId { get; set; }
+
+        public IList<Students_Lectures> Student_Lectures { get; set; }
+
     }
 }

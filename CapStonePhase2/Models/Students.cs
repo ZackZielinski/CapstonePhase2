@@ -17,6 +17,6 @@ namespace CapStonePhase2.Models
         //temporary placeholder for the junction table
         public int LectureId { get; set; }
 
-        public IList<Students_Lectures> Students_Lectures { get; set; }
+        public IList<Students_Lectures> Students_Lecture { get; set; }
     }
 }
