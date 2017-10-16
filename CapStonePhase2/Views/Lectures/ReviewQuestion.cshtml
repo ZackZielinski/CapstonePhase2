@@ -1,0 +1,23 @@
+﻿@model CapStonePhase2.Models.Students_Lectures
+
+@{
+    ViewBag.Title = "Review Question";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        @Html.DisplayFor(model => model.Lecture.ReviewQuestion)
+    </dl>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShortAnswer, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ShortAnswer, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ShortAnswer, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>

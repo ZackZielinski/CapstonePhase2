@@ -1,4 +1,5 @@
 ﻿using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -36,7 +37,9 @@ namespace CapStonePhase2.Models
         [Display(Name = "Number of Errors")]
         public int NumberOfErrors { get; set; }
 
-        [Display(Name = "Completed")]
+        [Display(Name = "Completed Courses")]
         public bool CompletedCourse { get; set; }
+
+        public IEnumerable<Students_Lectures> StudentInLectures { get; set; }
     }
 }

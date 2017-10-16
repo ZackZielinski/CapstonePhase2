@@ -99,7 +99,7 @@ namespace CapStonePhase2.Controllers
                 return RedirectToAction("Compiler", new { student = Student });
             }
 
-            return RedirectToAction("CodeAssignment", new { studentid = Student.StudentId, lectureid = Student.LectureId });
+            return RedirectToAction("ReviewQuestion", new { studentid = Student.StudentId, lectureid = Student.LectureId });
             
         }
 
@@ -111,6 +111,7 @@ namespace CapStonePhase2.Controllers
             if(results.Errors.Count != 0)
             {
                 StudentAnswers.ListOfErrors = results.Errors;
+                StudentAnswers.NumberOfErrors = results.Errors.Count;
                 StudentAnswers.IsCodeCorrect = false;
                 db.SaveChanges();
                 return View(StudentAnswers);
@@ -118,7 +119,7 @@ namespace CapStonePhase2.Controllers
             else if (results.Errors.Count == 0 && StudentAnswers.IsCodeCorrect == false)
             {
                 StudentAnswers.IsCodeCorrect = true;
-                //StudentAnswers.TotalErrors
+                StudentAnswers.NumberOfErrors = results.Errors.Count;
                 db.SaveChanges();
             }
 

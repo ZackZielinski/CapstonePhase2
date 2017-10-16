@@ -20,6 +20,40 @@ namespace CapStonePhase2.Controllers
             return View(db.Instructors.ToList());
         }
 
+        public ActionResult GradeShortAnswer(int studentid, int lectureid)
+        {
+            var StudentAnswers = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+
+            if (StudentAnswers == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(StudentAnswers);
+        }
+
+        public ActionResult ChangeGrade(int studentid, int lectureid)
+        {
+            var GradingStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+
+            if (GradingStudent == null)
+            {
+                return HttpNotFound();
+            }
+
+            if(GradingStudent.IsShortAnswerCorrect == false)
+            {
+                GradingStudent.IsShortAnswerCorrect = true;
+            }
+            else
+            {
+                GradingStudent.IsShortAnswerCorrect = false;
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("GradeShortAnswer", new { studentid = studentid, lectureid = lectureid });
+        }
+
         // GET: Instructors/Details/5
         public ActionResult Details(int? id)
         {

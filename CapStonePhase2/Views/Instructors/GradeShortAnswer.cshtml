@@ -1,0 +1,41 @@
+﻿@model CapStonePhase2.Models.Students_Lectures
+
+@{
+    ViewBag.Title = "Grading Short Answer";
+}
+
+<h2>@Model.Student.FirstName @Model.Student.LastName</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Lecture.Topic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lecture.ReviewQuestion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortAnswer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortAnswer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsShortAnswerCorrect)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsShortAnswerCorrect)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Change Grade", "ChangeGrade", new { studentid = Model.StudentId, lectureid = Model.LectureId }) |
+    @Html.ActionLink("Return to Student List", "Index", "Students")
+</p>

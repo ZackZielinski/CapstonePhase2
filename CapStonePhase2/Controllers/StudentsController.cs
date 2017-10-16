@@ -28,6 +28,13 @@ namespace CapStonePhase2.Controllers
             return View(LectureList);
         }
 
+        public ActionResult CompletedCourses(int studentid)
+        {
+            var StudentCourses = db.Students_Lectures.Where(z => z.StudentId == studentid).ToList();
+
+            return View(StudentCourses);
+        }
+
         // GET: Students/Details/5
         public ActionResult Details(int? id)
         {
@@ -42,6 +49,8 @@ namespace CapStonePhase2.Controllers
             }
             return View(students);
         }
+
+
 
         // GET: Students/Create
         public ActionResult Create()
