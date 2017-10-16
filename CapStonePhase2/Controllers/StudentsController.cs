@@ -28,16 +28,6 @@ namespace CapStonePhase2.Controllers
             return View(LectureList);
         }
 
-        public ActionResult CompletedCourses(int studentid)
-        {
-            var Student = db.Students.Find(studentid);
-
-            var StudentCompletion = db.Students_Lectures.Include(z=>z.Lecture).Where(z => z.Student == Student && z.Lecture.CompletedCourse == true).ToList(); 
-            
-
-            return View(StudentCompletion);
-        }
-
         // GET: Students/Details/5
         public ActionResult Details(int? id)
         {

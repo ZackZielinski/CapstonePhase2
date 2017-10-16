@@ -24,10 +24,6 @@ namespace CapStonePhase2.Models
         [Display(Name = "Code Assignment:")]
         public string CodeAssignment { get; set; }
 
-
-        [Display(Name = "Completed")]
-        public bool CompletedCourse { get; set; }
-
         //Student Id placeholder
         public int StudentId { get; set; }
 

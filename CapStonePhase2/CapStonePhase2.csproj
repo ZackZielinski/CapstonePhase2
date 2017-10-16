@@ -228,6 +228,14 @@
     <Compile Include="Migrations\201710132006173_moved completion from student_lecture model to lectures.Designer.cs">
       <DependentUpon>201710132006173_moved completion from student_lecture model to lectures.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710161624113_removed CompletedCourse column section from lecture model into Student_Lectures model.cs" />
+    <Compile Include="Migrations\201710161624113_removed CompletedCourse column section from lecture model into Student_Lectures model.Designer.cs">
+      <DependentUpon>201710161624113_removed CompletedCourse column section from lecture model into Student_Lectures model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710161640361_added a column determining number of errors.cs" />
+    <Compile Include="Migrations\201710161640361_added a column determining number of errors.Designer.cs">
+      <DependentUpon>201710161640361_added a column determining number of errors.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -317,9 +325,11 @@
     <Content Include="Views\Lectures\Edit.cshtml" />
     <Content Include="Views\Lectures\Index.cshtml" />
     <Content Include="Views\Lectures\Description.cshtml" />
+    <Content Include="Views\Lectures\Compiler.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CodeData\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -347,6 +357,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710132006173_moved completion from student_lecture model to lectures.resx">
       <DependentUpon>201710132006173_moved completion from student_lecture model to lectures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710161624113_removed CompletedCourse column section from lecture model into Student_Lectures model.resx">
+      <DependentUpon>201710161624113_removed CompletedCourse column section from lecture model into Student_Lectures model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710161640361_added a column determining number of errors.resx">
+      <DependentUpon>201710161640361_added a column determining number of errors.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

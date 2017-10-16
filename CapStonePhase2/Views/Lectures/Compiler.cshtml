@@ -1,0 +1,26 @@
+﻿@model CapStonePhase2.Models.Students_Lectures
+@using System.CodeDom.Compiler;
+
+@{
+    ViewBag.Title = "Compiler Results";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+<tr>
+    <th>
+        @Html.DisplayNameFor(model => model.ListOfErrors)
+    </th>
+    <th></th>
+</tr>
+
+@foreach (CompilerError error in Model.ListOfErrors)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => error.ErrorText)
+        </td>      
+    </tr>
+}
+</table>

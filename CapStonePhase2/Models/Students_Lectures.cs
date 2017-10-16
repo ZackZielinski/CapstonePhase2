@@ -30,7 +30,13 @@ namespace CapStonePhase2.Models
 
         public CompilerErrorCollection ListOfErrors { get; set; }
 
-        [Display(Name = "Is the Code Error-free?")]
+        [Display(Name = "Does the Code have Zero Errors?")]
         public bool IsCodeCorrect { get; set; }
+
+        [Display(Name = "Number of Errors")]
+        public int NumberOfErrors { get; set; }
+
+        [Display(Name = "Completed")]
+        public bool CompletedCourse { get; set; }
     }
 }
