@@ -1,10 +1,13 @@
-﻿@model CapStonePhase2.Models.Students_Lectures
+﻿@model IEnumerable<CapStonePhase2.Models.Students_Lectures>
 
 @{
-    ViewBag.Title = Model.Student.FirstName + Model.Student.LastName;
+    ViewBag.Title = "Completed Courses";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@foreach (var item in Model)
+{
+    @Html.DisplayFor(modelItem => item.Student.FirstName) @Html.DisplayFor(modelItem => item.Student.LastName)
+}</h2>
 
 <table class="table">
     <tr>
@@ -14,7 +17,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.StudentInLectures)
+    @foreach (var item in Model)
     {
         <tr>
             <td>
@@ -27,7 +30,7 @@
             @if (User.IsInRole("Instructor"))
             {
             <td>
-                @Html.ActionLink("Grade Short Answer", "GradeShortAnswer", "Instructors", new { studentid = Model.StudentId, lectureid = Model.LectureId })
+                @Html.ActionLink("Grade Short Answer", "GradeShortAnswer", "Instructors", new { studentid = item.StudentId, lectureid = item.LectureId })
             </td>
             }
         </tr>

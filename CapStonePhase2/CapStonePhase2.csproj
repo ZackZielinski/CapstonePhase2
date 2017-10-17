@@ -244,9 +244,12 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Instructors.cs" />
+    <Compile Include="Models\TestLectures.cs" />
     <Compile Include="Models\Lectures.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\TestStudents.cs" />
     <Compile Include="Models\Students.cs" />
+    <Compile Include="Models\TestStudentsLectures.cs" />
     <Compile Include="Models\Students_Lectures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
