@@ -22,9 +22,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Edit Profile", "Edit", "Students")</li>
-                    <li>@Html.ActionLink("View Lectures", "Lectures", "Students")</li>
-                    <li>@Html.ActionLink("View Progress", "CompletedCourses", "")</li>
+                    <li>@Html.ActionLink("Edit Profile", "Edit", "Students", new { id = Model.Id }, null)</li>
+                    <li>@Html.ActionLink("View Lectures", "Lectures", "Students", new { id = Model.Id }, null)</li>
+                    <li>@Html.ActionLink("View Progress", "CompletedCourses", new { id = Model.Id }, null)</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
