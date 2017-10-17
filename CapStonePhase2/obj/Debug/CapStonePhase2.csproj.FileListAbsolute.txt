@@ -89,3 +89,4 @@ C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapSton
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.movedcompletionfromstudent_lecturemodeltolectures.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.removedCompletedCoursecolumnsectionfromlecturemodelintoStudent_Lecturesmodel.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedacolumndeterminingnumberoferrors.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.removinglectureidfrommstudentmodel.resources

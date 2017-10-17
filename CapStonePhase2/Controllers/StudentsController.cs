@@ -97,8 +97,7 @@ namespace CapStonePhase2.Controllers
             {
                 db.Entry(students).State = EntityState.Modified;
                 db.SaveChanges();
-                var ChangedStudent = db.Students.Find(students.Id);
-                return RedirectToAction("Lectures", new { studentid = ChangedStudent.Id } );
+                return RedirectToAction("Lectures", new { studentid = students.Id } );
             }
             return View(students);
         }
@@ -118,7 +117,7 @@ namespace CapStonePhase2.Controllers
 
             db.Students.Remove(students);
             db.SaveChanges();
-            return RedirectToAction("Lectures");
+            return RedirectToAction("Index", "Home");
         }
 
         protected override void Dispose(bool disposing)

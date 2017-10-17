@@ -236,6 +236,10 @@
     <Compile Include="Migrations\201710161640361_added a column determining number of errors.Designer.cs">
       <DependentUpon>201710161640361_added a column determining number of errors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710171352538_removing lectureid fromm student model.cs" />
+    <Compile Include="Migrations\201710171352538_removing lectureid fromm student model.Designer.cs">
+      <DependentUpon>201710171352538_removing lectureid fromm student model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -366,6 +370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710161640361_added a column determining number of errors.resx">
       <DependentUpon>201710161640361_added a column determining number of errors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710171352538_removing lectureid fromm student model.resx">
+      <DependentUpon>201710171352538_removing lectureid fromm student model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

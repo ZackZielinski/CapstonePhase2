@@ -23,9 +23,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CompletedCourse)
             </td>
+
+            @if (User.IsInRole("Instructor"))
+            {
             <td>
                 @Html.ActionLink("Grade Short Answer", "GradeShortAnswer", "Instructors", new { studentid = Model.StudentId, lectureid = Model.LectureId })
             </td>
+            }
         </tr>
     }
 
