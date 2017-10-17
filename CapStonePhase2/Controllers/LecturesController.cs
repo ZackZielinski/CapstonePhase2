@@ -64,9 +64,9 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult CodeAssignment(int studentid, int lectureid)
         {
-            var AnsweredStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+            var StudentAnswers = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
-            if (AnsweredStudent == null)
+            if (StudentAnswers == null)
             {
                 var CurrentStudent = db.Students.Find(studentid);
                 var CurrentLecture = db.Lectures.Find(lectureid);
@@ -81,25 +81,24 @@ namespace CapStonePhase2.Controllers
                 return View(NewStudentAnswers);
             }
 
-            return View(AnsweredStudent);
+            return View(StudentAnswers);
         }
 
-        [HttpPost]
-        public ActionResult CodeAssignment(Students_Lectures Student, HttpPostedFileBase CodeFile)
+        public ActionResult EnterAssignment(int studentid, int lectureid, HttpPostedFileBase CodeFile)
         {
-            var StudentAnswer = db.Students_Lectures.Find(Student);
+            var StudentAnswer = db.Students_Lectures.SingleOrDefault(z=>z.StudentId == studentid && z.LectureId == lectureid);
 
-            var NewFile = Server.MapPath("~/CodeData") + CodeFile.FileName;
+            var NewFile = Server.MapPath("~/CodeData/" + CodeFile.FileName);
 
             if (CodeFile.ContentLength > 0)
             {
                 CodeFile.SaveAs(NewFile);
                 StudentAnswer.CodeFileName = NewFile;
                 db.SaveChanges();
-                return RedirectToAction("Compiler", new { student = Student });
+                return RedirectToAction("Compiler", new { student = StudentAnswer });
             }
 
-            return RedirectToAction("ReviewQuestion", new { studentid = Student.StudentId, lectureid = Student.LectureId });
+            return RedirectToAction("ReviewQuestion", new { studentid = studentid, lectureid = lectureid });
             
         }
 

@@ -1,0 +1,33 @@
+﻿@model CapStonePhase2.Models.Students_Lectures
+
+@{
+    ViewBag.Title = "Code Assignment";
+}
+
+<h2>ViewBag.Title</h2>
+<h3>@Html.DisplayFor(model => model.Lecture.Topic)</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayFor(model => model.Lecture.CodeAssignment)
+        </dt>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lecture.CodeExample)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lecture.CodeExample)
+        </dd>
+
+    </dl>
+</div>
+
+
+@using (Html.BeginForm("Upload File", "EnterAssignment", FormMethod.Post, new { studentid = Model.StudentId, lectureid = Model.LectureId, enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input type="submit" value="Upload" class="btn btn-primary" />
+}
