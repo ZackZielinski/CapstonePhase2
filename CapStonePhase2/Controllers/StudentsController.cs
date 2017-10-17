@@ -51,7 +51,6 @@ namespace CapStonePhase2.Controllers
         }
 
 
-
         // GET: Students/Create
         public ActionResult Create()
         {

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model CapStonePhase2.Models.Students
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,7 +22,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-
+                    <li>@Html.ActionLink("Edit Profile", "Edit", "Students")</li>
+                    <li>@Html.ActionLink("View Lectures", "Lectures", "Students")</li>
+                    <li>@Html.ActionLink("Edit Profile", "Edit", "Students")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
