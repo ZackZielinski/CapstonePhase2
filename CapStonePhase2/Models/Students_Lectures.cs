@@ -7,6 +7,11 @@ namespace CapStonePhase2.Models
 {
     public class Students_Lectures
     {
+        public Students_Lectures()
+        {
+            ListOfErrors = new CompilerErrorCollection();
+        }
+
         [ForeignKey("StudentId")]
         public Students Student { get; set; }
 

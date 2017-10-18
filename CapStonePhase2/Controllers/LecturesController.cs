@@ -21,15 +21,24 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult Description(int studentid, int lectureid)
         {
-            var AttendingStudent = db.Students.SingleOrDefault(z=>z.Id == studentid);
-            var SelectedLecture = db.Lectures.SingleOrDefault(z=>z.Id == lectureid);
+            var PriorStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
-            Students_Lectures StudentInLecture = new Students_Lectures()
+            if (PriorStudent == null)
             {
-                Student = AttendingStudent,
-                Lecture = SelectedLecture
-            };
-            return View(StudentInLecture);
+                var AttendingStudent = db.Students.SingleOrDefault(z => z.Id == studentid);
+                var SelectedLecture = db.Lectures.SingleOrDefault(z => z.Id == lectureid);
+
+                Students_Lectures StudentInLecture = new Students_Lectures()
+                {
+                    Student = AttendingStudent,
+                    Lecture = SelectedLecture
+                };
+
+                db.Students_Lectures.Add(StudentInLecture);
+                db.SaveChanges();
+                return View(StudentInLecture);
+            }
+            return View(PriorStudent);
         }
 
 
