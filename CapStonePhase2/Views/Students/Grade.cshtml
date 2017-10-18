@@ -1,0 +1,34 @@
+﻿@model CapStonePhase2.Models.Students_Lectures
+
+@{
+    ViewBag.Title = "Grade";
+}
+
+<h2>@Html.DisplayFor(model => model.Lecture.Topic)</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IsShortAnswerCorrect)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsCodeCorrect)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompletedCourse)
+        </th>
+        <th></th>
+    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.IsShortAnswerCorrect)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.IsCodeCorrect)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.CompletedCourse)
+            </td>
+        </tr>
+
+</table>

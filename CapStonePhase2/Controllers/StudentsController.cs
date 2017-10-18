@@ -45,6 +45,18 @@ namespace CapStonePhase2.Controllers
             return View(StudentCourses);
         }
 
+        public ActionResult Grade(int studentid, int lectureid)
+        {
+            var StudentProgress = db.Students_Lectures.SingleOrDefault(z=>z.StudentId == studentid && z.LectureId == lectureid);
+
+            if(StudentProgress == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(StudentProgress);
+        }
+
         // GET: Students/Details/5
         public ActionResult Details(int? id)
         {

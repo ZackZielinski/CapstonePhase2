@@ -21,29 +21,25 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult Description(int studentid, int lectureid)
         {
-            var StudentInLecture = db.Students_Lectures.Include(z=>z.Student.Id == studentid && z.Lecture.Id == lectureid).SingleOrDefault();
+            var AttendingStudent = db.Students.SingleOrDefault(z=>z.Id == studentid);
+            var SelectedLecture = db.Lectures.SingleOrDefault(z=>z.Id == lectureid);
+
+            Students_Lectures StudentInLecture = new Students_Lectures()
+            {
+                Student = AttendingStudent,
+                Lecture = SelectedLecture
+            };
             return View(StudentInLecture);
         }
 
-        // GET: ReviewQuestion
+
         public ActionResult ReviewQuestion(int studentid, int lectureid)
         {
             var AnsweredStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (AnsweredStudent == null)
             {
-                var CurrentStudent = db.Students.Find(studentid);
-                var CurrentLecture = db.Lectures.Find(lectureid);
-
-                Students_Lectures NewStudentAnswers = new Students_Lectures()
-                {
-                    Lecture = CurrentLecture,
-                    Student = CurrentStudent
-                };
-
-                db.Students_Lectures.Add(NewStudentAnswers);
-                db.SaveChanges();
-                return View(NewStudentAnswers);
+                return HttpNotFound();
             }
 
             return View(AnsweredStudent);
@@ -68,17 +64,7 @@ namespace CapStonePhase2.Controllers
 
             if (StudentAnswers == null)
             {
-                var CurrentStudent = db.Students.Find(studentid);
-                var CurrentLecture = db.Lectures.Find(lectureid);
-
-                Students_Lectures NewStudentAnswers = new Students_Lectures()
-                {
-                    Student = CurrentStudent,
-                    Lecture = CurrentLecture
-                };
-                db.Students_Lectures.Add(NewStudentAnswers);
-                db.SaveChanges();
-                return View(NewStudentAnswers);
+                return HttpNotFound();
             }
 
             return View(StudentAnswers);
