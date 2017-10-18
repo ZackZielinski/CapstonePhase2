@@ -4,17 +4,13 @@
     ViewBag.Title = "Code Assignment";
 }
 
-<h2>ViewBag.Title</h2>
+<h2>@ViewBag.Title</h2>
 <h3>@Html.DisplayFor(model => model.Lecture.Topic)</h3>
 
 <div>
     <hr />
+    @Html.DisplayFor(model => model.Lecture.CodeAssignment)
     <dl class="dl-horizontal">
-
-        <dt>
-            @Html.DisplayFor(model => model.Lecture.CodeAssignment)
-        </dt>
-
         <dt>
             @Html.DisplayNameFor(model => model.Lecture.CodeExample)
         </dt>
@@ -26,7 +22,7 @@
 </div>
 
 
-@using (Html.BeginForm("Upload File", "EnterAssignment", FormMethod.Post, new { studentid = Model.StudentId, lectureid = Model.LectureId, enctype = "multipart/form-data" }))
+@using (Html.BeginForm("CodeAssignment", "Lectures", FormMethod.Post, new { enctype = "multipart/form-data", student = Model }))
 {
     <input type="file" name="file" />
     <input type="submit" value="Upload" class="btn btn-primary" />

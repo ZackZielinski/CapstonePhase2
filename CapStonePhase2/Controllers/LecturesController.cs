@@ -21,7 +21,7 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult Description(int studentid, int lectureid)
         {
-            var PriorStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+            var PriorStudent = db.Students_Lectures.Include(x=>x.Lecture).Include(y=>y.Student).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (PriorStudent == null)
             {
@@ -44,7 +44,7 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult ReviewQuestion(int studentid, int lectureid)
         {
-            var AnsweredStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+            var AnsweredStudent = db.Students_Lectures.Include(y=>y.Lecture).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (AnsweredStudent == null)
             {
@@ -54,22 +54,27 @@ namespace CapStonePhase2.Controllers
             return View(AnsweredStudent);
         }
 
-        // POST: ReviewQuestion
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ReviewQuestion(Students_Lectures StudentAnswers)
         {
-            var EnteredStudent = db.Students_Lectures.Find(StudentAnswers);
+            var EnteredStudent = db.Students_Lectures.SingleOrDefault(z=>z.StudentId == StudentAnswers.StudentId && z.LectureId == StudentAnswers.LectureId);
+
+            if(EnteredStudent == null)
+            {
+                return HttpNotFound();
+            }
 
             EnteredStudent.ShortAnswer = StudentAnswers.ShortAnswer;
 
             db.SaveChanges();
-            return RedirectToAction("CodeAssignment", new { studentid = StudentAnswers.StudentId, lectureid = StudentAnswers.LectureId });
+            return RedirectToAction("CodeAssignment", new { studentid = EnteredStudent.StudentId, lectureid = EnteredStudent.LectureId });
         }
 
+        [HttpGet]
         public ActionResult CodeAssignment(int studentid, int lectureid)
         {
-            var StudentAnswers = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+            var StudentAnswers = db.Students_Lectures.Include(x=>x.Lecture).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (StudentAnswers == null)
             {
@@ -79,22 +84,29 @@ namespace CapStonePhase2.Controllers
             return View(StudentAnswers);
         }
 
-        public ActionResult EnterAssignment(int studentid, int lectureid, HttpPostedFileBase CodeFile)
+        [HttpPost]
+        public ActionResult CodeAssignment(HttpPostedFileBase CodeFile)
         {
-            var StudentAnswer = db.Students_Lectures.SingleOrDefault(z=>z.StudentId == studentid && z.LectureId == lectureid);
+            //var StudentAnswer = db.Students_Lectures.Include(x=>x.Student).SingleOrDefault(z=>z.StudentId == Student.StudentId && z.LectureId == Student.LectureId);
 
-            var NewFile = Server.MapPath("~/CodeData/" + CodeFile.FileName);
+            //var NewFile = Server.MapPath("~/CodeData/" + CodeFile.FileName);
 
-            if (CodeFile.ContentLength > 0)
-            {
-                CodeFile.SaveAs(NewFile);
-                StudentAnswer.CodeFileName = NewFile;
-                db.SaveChanges();
-                return RedirectToAction("Compiler", new { student = StudentAnswer });
-            }
+            //if (CodeFile.ContentLength > 0)
+            //{
+            //    CodeFile.SaveAs(NewFile);
+            //    StudentAnswer.CodeFileName = NewFile;
+            //    db.SaveChanges();
+            //    return RedirectToAction("Compiler", new { student = StudentAnswer.Student });
+            //}
 
-            return RedirectToAction("ReviewQuestion", new { studentid = studentid, lectureid = lectureid });
-            
+            //if(StudentAnswer.ShortAnswer == null)
+            //{
+            //    return RedirectToAction("ReviewQuestion", new { studentid = StudentAnswer.StudentId, lectureid = StudentAnswer.LectureId });
+            //}
+
+            //return RedirectToAction("Lectures", "Students", new { studentid = StudentAnswer.StudentId });
+
+            return View();
         }
 
         private ActionResult Compiler(Students_Lectures StudentAnswers)
