@@ -14,9 +14,6 @@ namespace CapStonePhase2.Models
         [Display(Name = "Last Name:")]
         public string LastName { get; set; }
 
-        [Display(Name = "Number of Completed Lectures")]
-        public int CompletedLectures { get; set; }
-
         public IList<Students_Lectures> Students_Lecture { get; set; }
     }
 }

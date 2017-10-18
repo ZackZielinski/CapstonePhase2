@@ -28,9 +28,19 @@ namespace CapStonePhase2.Controllers
             return View(LectureList);
         }
 
-        public ActionResult CompletedCourses(int studentid)
+        public ActionResult CompletedCourses(int? studentid)
         {
+            if (studentid == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             var StudentCourses = db.Students_Lectures.Where(z => z.StudentId == studentid).ToList();
+
+            if(StudentCourses == null)
+            {
+                return HttpNotFound();
+            }
 
             return View(StudentCourses);
         }
@@ -67,7 +77,7 @@ namespace CapStonePhase2.Controllers
             {
                 db.Students.Add(students);
                 db.SaveChanges();
-                var NewStudent = db.Students.Last();
+                var NewStudent = db.Students.SingleOrDefault(z => z.Id == students.Id);
                 return RedirectToAction("Lectures", new { studentid = NewStudent.Id });
             }
             return View(students);
@@ -117,7 +127,7 @@ namespace CapStonePhase2.Controllers
 
             db.Students.Remove(students);
             db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

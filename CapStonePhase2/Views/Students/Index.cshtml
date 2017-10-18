@@ -27,7 +27,7 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("View Completed Courses", "CompletedCourses", new { id = item.Id })
+            @Html.ActionLink("View Completed Courses", "CompletedCourses", new { studentid = item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>

@@ -37,7 +37,7 @@ namespace CapStonePhase2.Models
         [Display(Name = "Number of Errors")]
         public int NumberOfErrors { get; set; }
 
-        [Display(Name = "Completed Courses")]
+        [Display(Name = "Completed Course")]
         public bool CompletedCourse { get; set; }
 
         public IEnumerable<Students_Lectures> StudentInLectures { get; set; }

@@ -240,6 +240,10 @@
     <Compile Include="Migrations\201710171352538_removing lectureid fromm student model.Designer.cs">
       <DependentUpon>201710171352538_removing lectureid fromm student model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710181207406_removed counter of completed courses in student model.cs" />
+    <Compile Include="Migrations\201710181207406_removed counter of completed courses in student model.Designer.cs">
+      <DependentUpon>201710181207406_removed counter of completed courses in student model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -374,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710171352538_removing lectureid fromm student model.resx">
       <DependentUpon>201710171352538_removing lectureid fromm student model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710181207406_removed counter of completed courses in student model.resx">
+      <DependentUpon>201710181207406_removed counter of completed courses in student model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
