@@ -51,7 +51,7 @@ namespace CapStonePhase2.Controllers
 
             if(StudentProgress == null)
             {
-                return HttpNotFound();
+               StudentProgress = NewStudentInLecture(studentid, lectureid);
             }
 
             return View(StudentProgress);
@@ -140,6 +140,22 @@ namespace CapStonePhase2.Controllers
             db.Students.Remove(students);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        protected Students_Lectures NewStudentInLecture(int studentid, int lectureid)
+        {
+            var AttendedStudent = db.Students.SingleOrDefault(y => y.Id == studentid);
+            var SelectedLecture = db.Lectures.SingleOrDefault(z => z.Id == lectureid);
+
+            Students_Lectures NewStudent = new Students_Lectures()
+            {
+                Lecture = SelectedLecture,
+                Student = AttendedStudent
+            };
+            db.Students_Lectures.Add(NewStudent);
+            db.SaveChanges();
+
+            return NewStudent;
         }
 
         protected override void Dispose(bool disposing)

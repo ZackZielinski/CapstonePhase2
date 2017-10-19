@@ -10,6 +10,7 @@ namespace CapStonePhase2.Models
         public Students_Lectures()
         {
             ListOfErrors = new CompilerErrorCollection();
+            CodeRewards = "Awesome-sauce!";
         }
 
         [ForeignKey("StudentId")]
@@ -28,7 +29,7 @@ namespace CapStonePhase2.Models
         [Display(Name = "Short Answer:")]
         public string ShortAnswer { get; set; }
 
-        [Display(Name = "Is that Correct?")]
+        [Display(Name = "Is Short Answer Correct?")]
         public bool IsShortAnswerCorrect { get; set; }
 
         [Display(Name = "Student Code File")]
@@ -44,6 +45,8 @@ namespace CapStonePhase2.Models
 
         [Display(Name = "Completed Course")]
         public bool CompletedCourse { get; set; }
+
+        public string CodeRewards { get; set; }
 
         public IEnumerable<Students_Lectures> StudentInLectures { get; set; }
     }

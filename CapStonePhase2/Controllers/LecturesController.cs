@@ -6,6 +6,7 @@ using CapStonePhase2.Models;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using System.Web;
+using System;
 
 namespace CapStonePhase2.Controllers
 {
@@ -25,18 +26,7 @@ namespace CapStonePhase2.Controllers
 
             if (PriorStudent == null)
             {
-                var AttendingStudent = db.Students.SingleOrDefault(z => z.Id == studentid);
-                var SelectedLecture = db.Lectures.SingleOrDefault(z => z.Id == lectureid);
-
-                Students_Lectures StudentInLecture = new Students_Lectures()
-                {
-                    Student = AttendingStudent,
-                    Lecture = SelectedLecture
-                };
-
-                db.Students_Lectures.Add(StudentInLecture);
-                db.SaveChanges();
-                return View(StudentInLecture);
+                PriorStudent = NewStudentInLecture(studentid, lectureid);
             }
             return View(PriorStudent);
         }
@@ -48,7 +38,7 @@ namespace CapStonePhase2.Controllers
 
             if (AnsweredStudent == null)
             {
-                return HttpNotFound();
+                AnsweredStudent = NewStudentInLecture(studentid, lectureid);
             }
 
             return View(AnsweredStudent);
@@ -71,78 +61,56 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("CodeAssignment", new { studentid = EnteredStudent.StudentId, lectureid = EnteredStudent.LectureId });
         }
 
-        [HttpGet]
+        
         public ActionResult CodeAssignment(int studentid, int lectureid)
         {
             var StudentAnswers = db.Students_Lectures.Include(x=>x.Lecture).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (StudentAnswers == null)
             {
-                return HttpNotFound();
+                StudentAnswers = NewStudentInLecture(studentid, lectureid);
             }
 
             return View(StudentAnswers);
         }
 
         [HttpPost]
-        public ActionResult CodeAssignment(HttpPostedFileBase CodeFile)
+        public ActionResult CodeAssignment(HttpPostedFileBase CodeFile, Students_Lectures Student)
         {
-            //var StudentAnswer = db.Students_Lectures.Include(x=>x.Student).SingleOrDefault(z=>z.StudentId == Student.StudentId && z.LectureId == Student.LectureId);
+            var StudentAnswer = db.Students_Lectures.SingleOrDefault(z => z.StudentId == Student.StudentId && z.LectureId == Student.LectureId);
 
-            //var NewFile = Server.MapPath("~/CodeData/" + CodeFile.FileName);
+            var NewFile = Server.MapPath("~/CodeData/" + CodeFile.FileName);
 
-            //if (CodeFile.ContentLength > 0)
-            //{
-            //    CodeFile.SaveAs(NewFile);
-            //    StudentAnswer.CodeFileName = NewFile;
-            //    db.SaveChanges();
-            //    return RedirectToAction("Compiler", new { student = StudentAnswer.Student });
-            //}
+            if (CodeFile.ContentLength > 0)
+            {
+                CodeFile.SaveAs(NewFile);
+                StudentAnswer.CodeFileName = NewFile;
+                db.SaveChanges();
+                return RedirectToAction("Compiler", new { filename = NewFile });
+            }
 
-            //if(StudentAnswer.ShortAnswer == null)
-            //{
-            //    return RedirectToAction("ReviewQuestion", new { studentid = StudentAnswer.StudentId, lectureid = StudentAnswer.LectureId });
-            //}
+            if (StudentAnswer.ShortAnswer == null)
+            {
+                return RedirectToAction("ReviewQuestion", new { studentid = StudentAnswer.StudentId, lectureid = StudentAnswer.LectureId });
+            }
 
-            //return RedirectToAction("Lectures", "Students", new { studentid = StudentAnswer.StudentId });
-
-            return View();
+            return RedirectToAction("Lectures", "Students", new { studentid = StudentAnswer.StudentId });
         }
 
         private ActionResult Compiler(Students_Lectures StudentAnswers)
         {
-            string CodeFile = System.IO.File.ReadAllText($@"{StudentAnswers.CodeFileName}");
+            string CodeFile = System.IO.File.ReadAllText($@"{ StudentAnswers.CodeFileName }");
             var results = CompileCsharpSource(new[] { CodeFile }, "App.exe");
 
-            if(results.Errors.Count != 0)
-            {
-                StudentAnswers.ListOfErrors = results.Errors;
-                StudentAnswers.NumberOfErrors = results.Errors.Count;
-                StudentAnswers.IsCodeCorrect = false;
-                db.SaveChanges();
-                return View(StudentAnswers);
-            }
-            else if (results.Errors.Count == 0 && StudentAnswers.IsCodeCorrect == false)
-            {
-                StudentAnswers.IsCodeCorrect = true;
-                StudentAnswers.NumberOfErrors = results.Errors.Count;
-                db.SaveChanges();
-            }
 
-            if (StudentAnswers.IsCodeCorrect == true && StudentAnswers.IsShortAnswerCorrect == true)
-            {
-                StudentAnswers.CompletedCourse = true;
-                db.SaveChanges();
-            }
+           
+            StudentAnswers.ListOfErrors = results.Errors;
+            StudentAnswers.NumberOfErrors = results.Errors.Count;
+            db.SaveChanges();
+
+            CheckIfStudentPassed(StudentAnswers);
+
             return View(StudentAnswers);
-        }
-
-        private static CompilerResults CompileCsharpSource(string[] sources, string output, params string[] references)
-        {
-            var parameters = new CompilerParameters(references, output);
-            parameters.GenerateExecutable = true;
-            using (var provider = new CSharpCodeProvider())
-                return provider.CompileAssemblyFromSource(parameters, sources);
         }
 
         // GET: Lectures/Details/5
@@ -176,7 +144,7 @@ namespace CapStonePhase2.Controllers
             {
                 db.Lectures.Add(lectures);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Students");
+                return RedirectToAction("Index");
             }
 
             return View(lectures);
@@ -225,7 +193,53 @@ namespace CapStonePhase2.Controllers
             }
             db.Lectures.Remove(lectures);
             db.SaveChanges();
-            return RedirectToAction("Index", "Students");
+            return RedirectToAction("Index");
+        }
+
+        protected void CheckIfStudentPassed(Students_Lectures AnsweredStudent)
+        {
+            var StudentInDB = db.Students_Lectures.SingleOrDefault(z => z.StudentId == AnsweredStudent.StudentId && z.LectureId == AnsweredStudent.LectureId);
+
+            if (StudentInDB.NumberOfErrors == 0)
+            {
+                StudentInDB.IsCodeCorrect = true;
+            }
+            db.SaveChanges();
+
+            if (StudentInDB.IsCodeCorrect == true && StudentInDB.IsShortAnswerCorrect == true)
+            {
+                StudentInDB.CompletedCourse = true;
+            }
+            else
+            {
+                StudentInDB.CompletedCourse = false;
+            }
+            db.SaveChanges();
+        }
+
+
+        protected Students_Lectures NewStudentInLecture(int studentid, int lectureid)
+        {
+            var AttendingStudent = db.Students.SingleOrDefault(z => z.Id == studentid);
+            var SelectedLecture = db.Lectures.SingleOrDefault(z => z.Id == lectureid);
+
+            Students_Lectures StudentInLecture = new Students_Lectures()
+            {
+                Student = AttendingStudent,
+                Lecture = SelectedLecture
+            };
+
+            db.Students_Lectures.Add(StudentInLecture);
+            db.SaveChanges();
+            return StudentInLecture;
+        }
+
+        protected static CompilerResults CompileCsharpSource(string[] sources, string output, params string[] references)
+        {
+            var parameters = new CompilerParameters(references, output);
+            parameters.GenerateExecutable = true;
+            using (var provider = new CSharpCodeProvider())
+                return provider.CompileAssemblyFromSource(parameters, sources);
         }
 
         protected override void Dispose(bool disposing)

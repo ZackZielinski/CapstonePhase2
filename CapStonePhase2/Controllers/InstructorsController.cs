@@ -51,6 +51,8 @@ namespace CapStonePhase2.Controllers
             }
 
             db.SaveChanges();
+
+            CheckIfStudentPassed(GradingStudent);
             return RedirectToAction("GradeShortAnswer", new { studentid = studentid, lectureid = lectureid });
         }
 
@@ -138,6 +140,21 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index", "Students");
         }
 
+
+        protected void CheckIfStudentPassed(Students_Lectures Student)
+        {
+            var AttendedStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == Student.StudentId && z.LectureId == Student.LectureId);
+
+            if (AttendedStudent.IsCodeCorrect == true && AttendedStudent.IsShortAnswerCorrect == true)
+            {
+                AttendedStudent.CompletedCourse = true;
+            }
+            else
+            {
+                AttendedStudent.CompletedCourse = false;
+            }
+            db.SaveChanges();
+        }
 
         protected override void Dispose(bool disposing)
         {
