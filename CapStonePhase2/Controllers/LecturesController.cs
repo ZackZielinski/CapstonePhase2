@@ -7,6 +7,7 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using System.Web;
 using System;
+using Microsoft.AspNet.Identity;
 
 namespace CapStonePhase2.Controllers
 {
@@ -75,42 +76,16 @@ namespace CapStonePhase2.Controllers
         }
 
         [HttpPost]
-        public ActionResult CodeAssignment(HttpPostedFileBase CodeFile, Students_Lectures Student)
+        public ActionResult CodeAssignment(HttpPostedFileBase CodeFile)
         {
-            var StudentAnswer = db.Students_Lectures.SingleOrDefault(z => z.StudentId == Student.StudentId && z.LectureId == Student.LectureId);
-
             var NewFile = Server.MapPath("~/CodeData/" + CodeFile.FileName);
 
             if (CodeFile.ContentLength > 0)
             {
                 CodeFile.SaveAs(NewFile);
-                StudentAnswer.CodeFileName = NewFile;
-                db.SaveChanges();
-                return RedirectToAction("Compiler", new { filename = NewFile });
             }
 
-            if (StudentAnswer.ShortAnswer == null)
-            {
-                return RedirectToAction("ReviewQuestion", new { studentid = StudentAnswer.StudentId, lectureid = StudentAnswer.LectureId });
-            }
-
-            return RedirectToAction("Lectures", "Students", new { studentid = StudentAnswer.StudentId });
-        }
-
-        private ActionResult Compiler(Students_Lectures StudentAnswers)
-        {
-            string CodeFile = System.IO.File.ReadAllText($@"{ StudentAnswers.CodeFileName }");
-            var results = CompileCsharpSource(new[] { CodeFile }, "App.exe");
-
-
-           
-            StudentAnswers.ListOfErrors = results.Errors;
-            StudentAnswers.NumberOfErrors = results.Errors.Count;
-            db.SaveChanges();
-
-            CheckIfStudentPassed(StudentAnswers);
-
-            return View(StudentAnswers);
+            return RedirectToAction("Compiler", new { filename = NewFile });
         }
 
         // GET: Lectures/Details/5
@@ -195,6 +170,29 @@ namespace CapStonePhase2.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Compiler(string filename)
+        {
+            string CodeFile = System.IO.File.ReadAllText($@"{ filename }");
+            var results = CompileCsharpSource(new[] { CodeFile }, "App.exe");
+
+            var StudentAnswers = InsertErrors(results.Errors);
+
+            return View(StudentAnswers);
+        }
+
+        public Students_Lectures InsertErrors(CompilerErrorCollection results)
+        {
+            var StudentInDB = db.Students.Include(y => y.Usertype).SingleOrDefault(y=>y.Userid == User.Identity.GetUserId());
+            var Student_LectureInDB = db.Students_Lectures.Include(x => x.Student).SingleOrDefault(y=>y.StudentId == StudentInDB.Id && y.LectureId == StudentInDB.Lectureid);
+
+            Student_LectureInDB.ListOfErrors = results;
+            Student_LectureInDB.NumberOfErrors = results.Count;
+            db.SaveChanges();
+
+            CheckIfStudentPassed(Student_LectureInDB);
+
+            return Student_LectureInDB;
+        }
 
         protected void CheckIfStudentPassed(Students_Lectures AnsweredStudent)
         {
@@ -204,7 +202,6 @@ namespace CapStonePhase2.Controllers
             {
                 StudentInDB.IsCodeCorrect = true;
             }
-            db.SaveChanges();
 
             if (StudentInDB.IsCodeCorrect == true && StudentInDB.IsShortAnswerCorrect == true)
             {
@@ -222,6 +219,7 @@ namespace CapStonePhase2.Controllers
         {
             var AttendingStudent = db.Students.SingleOrDefault(z => z.Id == studentid);
             var SelectedLecture = db.Lectures.SingleOrDefault(z => z.Id == lectureid);
+            AttendingStudent.Lectureid = lectureid;
 
             Students_Lectures StudentInLecture = new Students_Lectures()
             {

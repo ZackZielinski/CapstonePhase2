@@ -32,9 +32,6 @@ namespace CapStonePhase2.Models
         [Display(Name = "Is Short Answer Correct?")]
         public bool IsShortAnswerCorrect { get; set; }
 
-        [Display(Name = "Student Code File")]
-        public string CodeFileName { get; set; }
-
         public CompilerErrorCollection ListOfErrors { get; set; }
 
         [Display(Name = "Does the Code have Zero Errors?")]

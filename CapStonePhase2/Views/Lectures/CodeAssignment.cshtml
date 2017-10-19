@@ -22,7 +22,7 @@
 </div>
 
 
-@using (Html.BeginForm("CodeAssignment", "Lectures", FormMethod.Post, new { enctype = "multipart/form-data", student = Model }))
+@using (Html.BeginForm("CodeAssignment", "Lectures", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <input type="file" name="file" />
     <input type="submit" value="Upload" class="btn btn-primary" />
