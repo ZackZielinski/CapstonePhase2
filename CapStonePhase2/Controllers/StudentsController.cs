@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using CapStonePhase2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CapStonePhase2.Controllers
 {
@@ -28,13 +29,8 @@ namespace CapStonePhase2.Controllers
             return View(LectureList);
         }
 
-        public ActionResult CompletedCourses(int? studentid)
+        public ActionResult CompletedCourses(int studentid)
         {
-            if (studentid == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
             var StudentCourses = db.Students_Lectures.Where(z => z.StudentId == studentid).ToList();
 
             if(StudentCourses == null)
@@ -87,6 +83,7 @@ namespace CapStonePhase2.Controllers
         {
             if (students.Id == 0)
             {
+                students.Userid = User.Identity.GetUserId();
                 db.Students.Add(students);
                 db.SaveChanges();
                 var NewStudent = db.Students.SingleOrDefault(z => z.Id == students.Id);
@@ -153,6 +150,7 @@ namespace CapStonePhase2.Controllers
                 Student = AttendedStudent
             };
             db.Students_Lectures.Add(NewStudent);
+            AttendedStudent.Lectureid = lectureid;
             db.SaveChanges();
 
             return NewStudent;

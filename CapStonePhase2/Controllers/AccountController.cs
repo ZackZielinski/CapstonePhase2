@@ -167,12 +167,12 @@ namespace CapStonePhase2.Controllers
 
                     if (model.UserRoles == "Student")
                     {
-                        return RedirectToAction("Create", "Students", new { usertype = user });
+                        return RedirectToAction("Create", "Students");
                     }
 
                     if (model.UserRoles == "Instructor")
                     {
-                        return RedirectToAction("Create", "Instructors", new { usertype = user });
+                        return RedirectToAction("Create", "Instructors");
                     }
 
                     return RedirectToAction("Index", "Home");

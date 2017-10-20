@@ -201,6 +201,7 @@
     <Compile Include="Controllers\LecturesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
+    <Compile Include="CustomHelpers\HtmlCustomHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,6 +261,10 @@
     <Compile Include="Migrations\201710192034210_removed filename cloumn in Student_Lectures model.Designer.cs">
       <DependentUpon>201710192034210_removed filename cloumn in Student_Lectures model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710201608581_added a CodeFile column in Students_Lectures model.cs" />
+    <Compile Include="Migrations\201710201608581_added a CodeFile column in Students_Lectures model.Designer.cs">
+      <DependentUpon>201710201608581_added a CodeFile column in Students_Lectures model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -272,6 +277,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CodeData\Variables.txt" />
     <Content Include="Content\bootstrap-slate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -358,7 +364,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CodeData\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -410,6 +415,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710192034210_removed filename cloumn in Student_Lectures model.resx">
       <DependentUpon>201710192034210_removed filename cloumn in Student_Lectures model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710201608581_added a CodeFile column in Students_Lectures model.resx">
+      <DependentUpon>201710201608581_added a CodeFile column in Students_Lectures model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

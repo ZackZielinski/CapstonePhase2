@@ -45,6 +45,8 @@ namespace CapStonePhase2.Models
 
         public string CodeRewards { get; set; }
 
+        public byte[] CodeFile { get; set; }
+
         public IEnumerable<Students_Lectures> StudentInLectures { get; set; }
     }
 }

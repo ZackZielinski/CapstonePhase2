@@ -1,10 +1,10 @@
 ﻿@{
-    if (this.User.IsInRole("Student"))
+    if (User.IsInRole("Student"))
     {
         Layout = "~/Views/Shared/_StudentLayout.cshtml";
     }
 
-    if (this.User.IsInRole("Instructor"))
+    if (User.IsInRole("Instructor"))
     {
         Layout = "~/Views/Shared/_InstructorLayout.cshtml";
     }

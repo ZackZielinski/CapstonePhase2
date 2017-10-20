@@ -17,13 +17,12 @@
         <dd>
             @Html.DisplayFor(model => model.Lecture.CodeExample)
         </dd>
-
     </dl>
 </div>
 
 
 @using (Html.BeginForm("CodeAssignment", "Lectures", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <input type="file" name="file" />
+    <input type="file" name="file" style="color:white"/>
     <input type="submit" value="Upload" class="btn btn-primary" />
 }

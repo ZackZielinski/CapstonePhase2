@@ -23,12 +23,20 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult Description(int studentid, int lectureid)
         {
+            var AttendingStudent = db.Students.SingleOrDefault(z=>z.Id == studentid);
+
             var PriorStudent = db.Students_Lectures.Include(x=>x.Lecture).Include(y=>y.Student).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (PriorStudent == null)
             {
                 PriorStudent = NewStudentInLecture(studentid, lectureid);
             }
+
+            if (AttendingStudent != null)
+            {
+                AttendingStudent.Lectureid = lectureid;
+            }
+            db.SaveChanges();
             return View(PriorStudent);
         }
 
@@ -76,16 +84,27 @@ namespace CapStonePhase2.Controllers
         }
 
         [HttpPost]
-        public ActionResult CodeAssignment(HttpPostedFileBase CodeFile)
+        public ActionResult CodeAssignment(HttpPostedFileBase file)
         {
-            var NewFile = Server.MapPath("~/CodeData/" + CodeFile.FileName);
 
-            if (CodeFile.ContentLength > 0)
+            var NewFile = Server.MapPath("~/CodeData/" + file.FileName);
+
+            if (file.ContentLength > 0)
             {
-                CodeFile.SaveAs(NewFile);
+                file.SaveAs(NewFile);
             }
 
             return RedirectToAction("Compiler", new { filename = NewFile });
+        }
+
+        public ActionResult Compiler(string filename)
+        {
+            string CodeFile = System.IO.File.ReadAllText($@"{ filename }");
+            var results = CompileCsharpSource(new[] { CodeFile }, "App.exe");
+
+            var StudentAnswers = InsertErrors(results.Errors);
+
+            return View(StudentAnswers);
         }
 
         // GET: Lectures/Details/5
@@ -170,19 +189,11 @@ namespace CapStonePhase2.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult Compiler(string filename)
-        {
-            string CodeFile = System.IO.File.ReadAllText($@"{ filename }");
-            var results = CompileCsharpSource(new[] { CodeFile }, "App.exe");
-
-            var StudentAnswers = InsertErrors(results.Errors);
-
-            return View(StudentAnswers);
-        }
 
         public Students_Lectures InsertErrors(CompilerErrorCollection results)
         {
-            var StudentInDB = db.Students.Include(y => y.Usertype).SingleOrDefault(y=>y.Userid == User.Identity.GetUserId());
+            var CurrentUser = User.Identity.GetUserId();
+            var StudentInDB = db.Students.Include(y => y.Usertype).SingleOrDefault(y=>y.Userid == CurrentUser);
             var Student_LectureInDB = db.Students_Lectures.Include(x => x.Student).SingleOrDefault(y=>y.StudentId == StudentInDB.Id && y.LectureId == StudentInDB.Lectureid);
 
             Student_LectureInDB.ListOfErrors = results;
@@ -228,6 +239,7 @@ namespace CapStonePhase2.Controllers
             };
 
             db.Students_Lectures.Add(StudentInLecture);
+            AttendingStudent.Lectureid = lectureid;
             db.SaveChanges();
             return StudentInLecture;
         }

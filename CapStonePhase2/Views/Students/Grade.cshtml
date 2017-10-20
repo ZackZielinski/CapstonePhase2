@@ -1,4 +1,6 @@
 ﻿@model CapStonePhase2.Models.Students_Lectures
+@using CapStonePhase2.CustomHelpers
+
 
 @{
     ViewBag.Title = "Grade";
@@ -21,13 +23,13 @@
     </tr>
         <tr>
             <td>
-                @Html.DisplayFor(model => model.IsShortAnswerCorrect.ToString())
+                @Html.BoolToString(Model.IsShortAnswerCorrect)
             </td>
             <td>
-                @Html.DisplayFor(model => model.IsCodeCorrect.ToString())
+                @Html.BoolToString(Model.IsCodeCorrect)
             </td>
             <td>
-                @Html.DisplayFor(model => model.CompletedCourse.ToString())
+                @Html.BoolToString(Model.CompletedCourse)
             </td>
         </tr>
 
