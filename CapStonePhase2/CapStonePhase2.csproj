@@ -265,6 +265,10 @@
     <Compile Include="Migrations\201710201608581_added a CodeFile column in Students_Lectures model.Designer.cs">
       <DependentUpon>201710201608581_added a CodeFile column in Students_Lectures model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710201849491_removed unnecessary codefile column.cs" />
+    <Compile Include="Migrations\201710201849491_removed unnecessary codefile column.Designer.cs">
+      <DependentUpon>201710201849491_removed unnecessary codefile column.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -418,6 +422,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710201608581_added a CodeFile column in Students_Lectures model.resx">
       <DependentUpon>201710201608581_added a CodeFile column in Students_Lectures model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710201849491_removed unnecessary codefile column.resx">
+      <DependentUpon>201710201849491_removed unnecessary codefile column.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

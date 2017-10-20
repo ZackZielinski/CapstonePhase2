@@ -21,6 +21,10 @@
         <td>
             @Html.DisplayFor(model=> model.CodeRewards)
         </td>
+
+        <td>
+            @Html.ActionLink("Back to Lectures", "Lectures", "Students", new { studentid = Model.StudentId })
+        </td>
     </tr>
 }
 else {
@@ -29,8 +33,13 @@ else {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => error.ErrorText)
-            </td>      
+            </td>
         </tr>
     }
+    <tr>
+        <td>
+            @Html.ActionLink("Return", "CodeAssignment", new { studentid = Model.StudentId, lectureid = Model.LectureId })
+        </td>
+    </tr>
 }
 </table>
