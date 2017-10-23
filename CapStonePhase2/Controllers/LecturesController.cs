@@ -200,11 +200,27 @@ namespace CapStonePhase2.Controllers
             Student_LectureInDB.NumberOfErrors = results.Count;
             db.SaveChanges();
 
-            foreach (CompilerError warning in results)
+            for(int x = results.Count-1; x >= 0; x--)
             {
-                if (warning.IsWarning == true)
+                var error = results[x];
+
+                if(error.ErrorNumber == "CS1567")
                 {
-                    Student_LectureInDB.ListOfWarnings.Add(warning);
+                    Student_LectureInDB.NumberOfErrors--;
+                    Student_LectureInDB.ListOfErrors.Remove(error);
+                    continue;
+                }
+
+                if (error.ErrorNumber == "CS1610")
+                {
+                    Student_LectureInDB.NumberOfErrors--;
+                    Student_LectureInDB.ListOfErrors.Remove(error);
+                    continue;
+                }
+
+                if (error.IsWarning == true)
+                {
+                    Student_LectureInDB.ListOfWarnings.Add(error);
                     Student_LectureInDB.NumberOfErrors--;
                 }
             }
@@ -257,8 +273,7 @@ namespace CapStonePhase2.Controllers
 
         protected static CompilerResults CompileCsharpSource(string[] sources, string output, params string[] references)
         {
-            string TempPath = Path.GetTempPath();
-            
+                        
             var parameters = new CompilerParameters(references, output)
             {
                 GenerateExecutable = true
