@@ -6,8 +6,8 @@ using CapStonePhase2.Models;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using System.Web;
-using System;
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace CapStonePhase2.Controllers
 {
@@ -200,6 +200,17 @@ namespace CapStonePhase2.Controllers
             Student_LectureInDB.NumberOfErrors = results.Count;
             db.SaveChanges();
 
+            foreach (CompilerError warning in results)
+            {
+                if (warning.IsWarning == true)
+                {
+                    Student_LectureInDB.ListOfWarnings.Add(warning);
+                    Student_LectureInDB.NumberOfErrors--;
+                }
+            }
+            Student_LectureInDB.NumberOfWarnings = Student_LectureInDB.ListOfWarnings.Count;
+            db.SaveChanges();
+
             CheckIfStudentPassed(Student_LectureInDB);
 
             return Student_LectureInDB;
@@ -246,8 +257,14 @@ namespace CapStonePhase2.Controllers
 
         protected static CompilerResults CompileCsharpSource(string[] sources, string output, params string[] references)
         {
-            var parameters = new CompilerParameters(references, output);
-            parameters.GenerateExecutable = true;
+            string TempPath = Path.GetTempPath();
+            
+            var parameters = new CompilerParameters(references, output)
+            {
+                GenerateExecutable = true
+            };
+            
+
             using (var provider = new CSharpCodeProvider())
                 return provider.CompileAssemblyFromSource(parameters, sources);
         }

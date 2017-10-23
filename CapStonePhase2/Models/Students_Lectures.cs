@@ -10,6 +10,7 @@ namespace CapStonePhase2.Models
         public Students_Lectures()
         {
             ListOfErrors = new CompilerErrorCollection();
+            ListOfWarnings = new CompilerErrorCollection();
             CodeRewards = "Awesome-sauce!";
         }
 
@@ -34,11 +35,16 @@ namespace CapStonePhase2.Models
 
         public CompilerErrorCollection ListOfErrors { get; set; }
 
+        public CompilerErrorCollection ListOfWarnings { get; set; }
+
         [Display(Name = "Does the Code have Zero Errors?")]
         public bool IsCodeCorrect { get; set; }
 
         [Display(Name = "Number of Errors")]
         public int NumberOfErrors { get; set; }
+
+        [Display(Name ="Number of Warnings")]
+        public int NumberOfWarnings { get; set; }
 
         [Display(Name = "Completed Course")]
         public bool CompletedCourse { get; set; }

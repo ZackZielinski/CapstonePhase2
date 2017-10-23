@@ -10,31 +10,54 @@
 <table class="table">
 <tr>
     <th>
-        You Have @Model.NumberOfErrors Errors
+        You have @Model.NumberOfWarnings Warning(s)
     </th>
     <th></th>
 </tr>
 
-@if(Model.NumberOfErrors == 0)
+@if (Model.NumberOfWarnings != 0)
+{
+    foreach (CompilerError warning in Model.ListOfWarnings)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => warning.ErrorText) || Line: @Html.DisplayFor(modelItem => warning.Line)
+            </td>
+        </tr>
+    }
+}
+
+    <tr>
+        <th>
+            You have @Model.NumberOfErrors Error(s)
+        </th>
+        <th></th>
+    </tr>
+
+@if (Model.NumberOfErrors == 0)
 {
     <tr>
-        <td>
-            @Html.DisplayFor(model=> model.CodeRewards)
-        </td>
+        <th>
+            @Html.DisplayFor(model => model.CodeRewards)
+        </th>
 
         <td>
+            @Html.ActionLink("Go to Review Question", "ReviewQuestion", "Lectures", new { studentid = Model.StudentId, lectureid = Model.LectureId }) |
             @Html.ActionLink("Back to Lectures", "Lectures", "Students", new { studentid = Model.StudentId })
         </td>
     </tr>
 }
-else {
+else
+{
     foreach (CompilerError error in Model.ListOfErrors)
     {
+        if (error.IsWarning == false){
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => error.ErrorText)
+                @Html.DisplayFor(modelItem => error.ErrorText) || Line: @Html.DisplayFor(modelItem => error.Line)
             </td>
         </tr>
+        }
     }
     <tr>
         <td>

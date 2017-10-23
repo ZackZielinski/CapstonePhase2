@@ -1,10 +1,17 @@
+using System;
+
 public class Program
 {
+
   static void Main()
   {
 	string FirstName = "Derek";
 	int Age = 20;
 	bool IsAwesome = true;
+	
+	Console.WriteLine(FirstName);
+	Console.WriteLine(Age);
+	Console.WriteLine(IsAwesome);
 
   }
 }

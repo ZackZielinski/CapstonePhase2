@@ -269,6 +269,14 @@
     <Compile Include="Migrations\201710201849491_removed unnecessary codefile column.Designer.cs">
       <DependentUpon>201710201849491_removed unnecessary codefile column.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710231522262_created a list of warnings column and a number of warnings column.cs" />
+    <Compile Include="Migrations\201710231522262_created a list of warnings column and a number of warnings column.Designer.cs">
+      <DependentUpon>201710231522262_created a list of warnings column and a number of warnings column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201710231543491_changed the warning column name to NumberOfWarnings.cs" />
+    <Compile Include="Migrations\201710231543491_changed the warning column name to NumberOfWarnings.Designer.cs">
+      <DependentUpon>201710231543491_changed the warning column name to NumberOfWarnings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -425,6 +433,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710201849491_removed unnecessary codefile column.resx">
       <DependentUpon>201710201849491_removed unnecessary codefile column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710231522262_created a list of warnings column and a number of warnings column.resx">
+      <DependentUpon>201710231522262_created a list of warnings column and a number of warnings column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710231543491_changed the warning column name to NumberOfWarnings.resx">
+      <DependentUpon>201710231543491_changed the warning column name to NumberOfWarnings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
