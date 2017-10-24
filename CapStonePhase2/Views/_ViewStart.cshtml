@@ -3,8 +3,7 @@
     {
         Layout = "~/Views/Shared/_StudentLayout.cshtml";
     }
-
-    if (User.IsInRole("Instructor"))
+    else if (User.IsInRole("Instructor"))
     {
         Layout = "~/Views/Shared/_InstructorLayout.cshtml";
     }

@@ -17,13 +17,16 @@ namespace CapStonePhase2.Controllers
             return View(db.Students.ToList());
         }
 
-        public ActionResult Lectures(int studentid)
+        public ActionResult Lectures()
         {
             var LectureList = db.Lectures.ToList();
 
+            var CurrentUser = User.Identity.GetUserId();
+            var PriorStudent = db.Students.Include(y => y.Usertype).SingleOrDefault(z=>z.Userid == CurrentUser);
+
             foreach(var Lecture in LectureList)
             {
-                Lecture.StudentId = studentid;
+                Lecture.StudentId = PriorStudent.Id;
             }
 
             return View(LectureList);
@@ -31,7 +34,7 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult CompletedCourses(int studentid)
         {
-            var StudentCourses = db.Students_Lectures.Where(z => z.StudentId == studentid).ToList();
+            var StudentCourses = db.Students_Lectures.Include(x=>x.Student).Include(y=>y.Lecture).Where(z => z.StudentId == studentid).ToList();
 
             if(StudentCourses == null)
             {
@@ -40,6 +43,21 @@ namespace CapStonePhase2.Controllers
 
             return View(StudentCourses);
         }
+
+        public ActionResult ViewCompletedCourses()
+        {
+            string CurrentUser = User.Identity.GetUserId();
+            var CurrentStudent = db.Students.Include(y => y.Usertype).SingleOrDefault(z => z.Userid == CurrentUser);
+            var StudentCourses = db.Students_Lectures.Include(y=>y.Lecture).Where(z => z.StudentId == CurrentStudent.Id).ToList();
+
+            if (StudentCourses == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(StudentCourses);
+        }
+
 
         public ActionResult Grade(int studentid, int lectureid)
         {
@@ -86,8 +104,7 @@ namespace CapStonePhase2.Controllers
                 students.Userid = User.Identity.GetUserId();
                 db.Students.Add(students);
                 db.SaveChanges();
-                var NewStudent = db.Students.SingleOrDefault(z => z.Id == students.Id);
-                return RedirectToAction("Lectures", new { studentid = NewStudent.Id });
+                return RedirectToAction("Lectures");
             }
             return View(students);
         }

@@ -373,6 +373,7 @@
     <Content Include="Views\Lectures\ReviewQuestion.cshtml" />
     <Content Include="Views\Lectures\CodeAssignment.cshtml" />
     <Content Include="Views\Students\Grade.cshtml" />
+    <Content Include="Views\Students\ViewCompletedCourses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

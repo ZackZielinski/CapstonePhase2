@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CapStonePhase2.Models.Students_Lectures>
+@using CapStonePhase2.CustomHelpers
+
+@{
+    ViewBag.Title = "CompletedCourses";
+}
+
+<h2>Progress Report</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Lecture.Topic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompletedCourse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsShortAnswerCorrect)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsCodeCorrect)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lecture.Topic)
+        </td>
+        <td>
+            @Html.BoolToString(item.CompletedCourse)
+        </td>
+        <td>
+            @Html.BoolToString(item.IsShortAnswerCorrect)
+        </td>
+        <td>
+            @Html.BoolToString(item.IsCodeCorrect)
+        </td>
+     </tr>
+}
+
+</table>

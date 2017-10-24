@@ -79,7 +79,7 @@ namespace CapStonePhase2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToLocal(model.UserRoles, returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -461,6 +461,25 @@ namespace CapStonePhase2.Controllers
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        private ActionResult RedirectToLocal(string UserRole, string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            if (UserRole == "Student")
+            {
+                return RedirectToAction("Lectures", "Students");
+            }
+
+            if(UserRole == "Instructor")
+            {
+                return RedirectToAction("Index", "Students");
             }
             return RedirectToAction("Index", "Home");
         }

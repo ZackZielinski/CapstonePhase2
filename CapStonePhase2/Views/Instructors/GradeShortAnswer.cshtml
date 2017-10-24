@@ -25,17 +25,10 @@
             @Html.DisplayFor(model => model.ShortAnswer)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsShortAnswerCorrect)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsShortAnswerCorrect)
-        </dd>
-
     </dl>
 </div>
 <p>
     @Html.ActionLink("Change Grade", "ChangeGrade", new { studentid = Model.StudentId, lectureid = Model.LectureId }) |
+    @Html.ActionLink("Back To Student","CompletedCourses","Students", new { studentid = Model.StudentId }, null) | 
     @Html.ActionLink("Return to Student List", "Index", "Students")
 </p>

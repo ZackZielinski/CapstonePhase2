@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CapStonePhase2.Models;
 
@@ -22,7 +18,7 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult GradeShortAnswer(int studentid, int lectureid)
         {
-            var StudentAnswers = db.Students_Lectures.SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+            var StudentAnswers = db.Students_Lectures.Include(x=>x.Lecture).Include(y=>y.Student).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (StudentAnswers == null)
             {

@@ -1,0 +1,18 @@
+using System;
+
+public class Program
+{
+  static void Main()
+   {
+     int age = 20;
+	
+	if(age < 19)
+	{
+	 Console.WriteLine(age);
+	}
+	else
+	{
+	 Console.WriteLine("still young");
+	}
+   }
+}
