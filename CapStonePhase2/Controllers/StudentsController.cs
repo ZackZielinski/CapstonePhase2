@@ -61,7 +61,7 @@ namespace CapStonePhase2.Controllers
 
         public ActionResult Grade(int studentid, int lectureid)
         {
-            var StudentProgress = db.Students_Lectures.SingleOrDefault(z=>z.StudentId == studentid && z.LectureId == lectureid);
+            var StudentProgress = db.Students_Lectures.Include(y=>y.Lecture).SingleOrDefault(z=>z.StudentId == studentid && z.LectureId == lectureid);
 
             if(StudentProgress == null)
             {
