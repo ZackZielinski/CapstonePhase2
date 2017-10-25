@@ -112,15 +112,14 @@ namespace CapStonePhase2.Controllers
         // GET: Students/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Students students = db.Students.Find(id);
+            string CurrentUser = User.Identity.GetUserId();
+            var students = db.Students.Find(id);
+            
             if (students == null)
             {
-                return HttpNotFound();
+                students = db.Students.Include(x=>x.Usertype).SingleOrDefault(y=>y.Userid == CurrentUser);
             }
+
             return View(students);
         }
 
