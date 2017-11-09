@@ -277,6 +277,18 @@
     <Compile Include="Migrations\201710231543491_changed the warning column name to NumberOfWarnings.Designer.cs">
       <DependentUpon>201710231543491_changed the warning column name to NumberOfWarnings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711091557202_adding and refactoring columns to start saving text into a file.cs" />
+    <Compile Include="Migrations\201711091557202_adding and refactoring columns to start saving text into a file.Designer.cs">
+      <DependentUpon>201711091557202_adding and refactoring columns to start saving text into a file.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711091723253_renamed EnteredCode column to CodeFileName column.cs" />
+    <Compile Include="Migrations\201711091723253_renamed EnteredCode column to CodeFileName column.Designer.cs">
+      <DependentUpon>201711091723253_renamed EnteredCode column to CodeFileName column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711092026063_created a StudentCode column.cs" />
+    <Compile Include="Migrations\201711092026063_created a StudentCode column.Designer.cs">
+      <DependentUpon>201711092026063_created a StudentCode column.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -289,7 +301,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CodeData\Variables.txt" />
     <Content Include="Content\bootstrap-slate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -440,6 +451,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710231543491_changed the warning column name to NumberOfWarnings.resx">
       <DependentUpon>201710231543491_changed the warning column name to NumberOfWarnings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711091557202_adding and refactoring columns to start saving text into a file.resx">
+      <DependentUpon>201711091557202_adding and refactoring columns to start saving text into a file.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711091723253_renamed EnteredCode column to CodeFileName column.resx">
+      <DependentUpon>201711091723253_renamed EnteredCode column to CodeFileName column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711092026063_created a StudentCode column.resx">
+      <DependentUpon>201711092026063_created a StudentCode column.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

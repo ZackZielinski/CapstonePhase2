@@ -5,9 +5,10 @@ using System.Web.Mvc;
 using CapStonePhase2.Models;
 using System.CodeDom.Compiler;
 using Microsoft.CSharp;
-using System.Web;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System.Windows;
+using System;
 
 namespace CapStonePhase2.Controllers
 {
@@ -78,23 +79,22 @@ namespace CapStonePhase2.Controllers
             if (StudentAnswers == null)
             {
                 StudentAnswers = NewStudentInLecture(studentid, lectureid);
+                StudentAnswers.CodeFileName = GetNewCodeFile(StudentAnswers.Student.FirstName, StudentAnswers.Student.LastName, StudentAnswers.Lecture.Topic);
+                StudentAnswers.StudentCode = System.IO.File.ReadAllText(StudentAnswers.CodeFileName);
             }
-
+            db.SaveChanges();
             return View(StudentAnswers);
         }
 
         [HttpPost]
-        public ActionResult CodeAssignment(HttpPostedFileBase file)
+        public ActionResult CodeAssignment(int lectureId, int studentId, string CodeText)
         {
+            var StudentCodeAnswers = db.Students_Lectures.SingleOrDefault(x => x.LectureId == lectureId && x.StudentId == studentId);
+            StudentCodeAnswers.StudentCode = CodeText;
 
-            var NewFile = Server.MapPath("~/CodeData/" + file.FileName);
+            UpdateCodeFile(StudentCodeAnswers.CodeFileName, StudentCodeAnswers.StudentCode);
 
-            if (file.ContentLength > 0)
-            {
-                file.SaveAs(NewFile);
-            }
-
-            return RedirectToAction("Compiler", new { filename = NewFile });
+            return RedirectToAction("Compiler", new { filename = $"{StudentCodeAnswers.CodeFileName}" });
         }
 
         public ActionResult Compiler(string filename)
@@ -102,9 +102,9 @@ namespace CapStonePhase2.Controllers
             string CodeFile = System.IO.File.ReadAllText($@"{ filename }");
             var results = CompileCsharpSource(new[] { CodeFile }, "App.exe");
 
-            var StudentAnswers = InsertErrors(results.Errors);
+            var  CompilerFeedback = InsertErrors(results.Errors);
 
-            return View(StudentAnswers);
+            return View(CompilerFeedback);
         }
 
         // GET: Lectures/Details/5
@@ -190,28 +190,43 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index");
         }
 
-        public Students_Lectures InsertErrors(CompilerErrorCollection results)
+        protected void UpdateCodeFile(string CodeFileName, string FileText)
+        {
+            StreamWriter UpdatedFile = new StreamWriter(CodeFileName);
+            UpdatedFile.WriteLine($"{FileText}");
+            UpdatedFile.Close();
+        }
+
+
+        protected string GetNewCodeFile(string StudentFirstName, string StudentLastname, string Lecture)
+        {
+            string FilePath = $@"{StudentFirstName}{StudentLastname}{Lecture}.txt";
+
+            StreamWriter NewFile = new StreamWriter(FilePath);
+            string newLine = "\r\n";
+            NewFile.WriteLine($"using System; {newLine}");
+            NewFile.WriteLine($"public class Program {{ {newLine}");
+            NewFile.WriteLine($"static void Main(){{ {newLine + newLine + newLine + newLine} }} {newLine}}}");
+            NewFile.Close();
+
+            return FilePath;
+        }
+
+        protected Students_Lectures InsertErrors(CompilerErrorCollection results)
         {
             var CurrentUser = User.Identity.GetUserId();
-            var StudentInDB = db.Students.Include(y => y.Usertype).SingleOrDefault(y=>y.Userid == CurrentUser);
-            var Student_LectureInDB = db.Students_Lectures.Include(x => x.Student).SingleOrDefault(y=>y.StudentId == StudentInDB.Id && y.LectureId == StudentInDB.Lectureid);
+            var StudentInDB = db.Students.SingleOrDefault(y => y.Userid == CurrentUser);
+            var Student_LectureInDB = db.Students_Lectures.Include(x => x.Student).SingleOrDefault(y => y.StudentId == StudentInDB.Id && y.LectureId == StudentInDB.Lectureid);
 
             Student_LectureInDB.ListOfErrors = results;
             Student_LectureInDB.NumberOfErrors = results.Count;
             db.SaveChanges();
 
-            for(int x = results.Count-1; x >= 0; x--)
+            for (int x = results.Count - 1; x >= 0; x--)
             {
                 var error = results[x];
 
-                if(error.ErrorNumber == "CS1567")
-                {
-                    Student_LectureInDB.NumberOfErrors--;
-                    Student_LectureInDB.ListOfErrors.Remove(error);
-                    continue;
-                }
-
-                if (error.ErrorNumber == "CS1610")
+                if (error.ErrorNumber == "CS1567" || error.ErrorNumber == "CS1610")
                 {
                     Student_LectureInDB.NumberOfErrors--;
                     Student_LectureInDB.ListOfErrors.Remove(error);
@@ -279,7 +294,6 @@ namespace CapStonePhase2.Controllers
                 GenerateExecutable = true
             };
             
-
             using (var provider = new CSharpCodeProvider())
                 return provider.CompileAssemblyFromSource(parameters, sources);
         }

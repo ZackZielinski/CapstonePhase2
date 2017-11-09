@@ -15,9 +15,6 @@ namespace CapStonePhase2.Models
         [Display(Name = "Last Name:")]
         public string LastName { get; set; }
 
-        [ForeignKey("Userid")]
-        public ApplicationUser Usertype { get; set; }
-
         public string Userid { get; set; }
 
         //Lecture id placeholder

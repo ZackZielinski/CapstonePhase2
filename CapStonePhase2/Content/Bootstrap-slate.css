@@ -19,6 +19,12 @@ html {
 body {
   margin: 0;
 }
+
+.CodeTextBox textarea{
+    height: 400px;
+    width: 100%;
+}
+
 article,
 aside,
 details,

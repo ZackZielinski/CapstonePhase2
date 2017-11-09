@@ -22,7 +22,7 @@ namespace CapStonePhase2.Controllers
             var LectureList = db.Lectures.ToList();
 
             var CurrentUser = User.Identity.GetUserId();
-            var PriorStudent = db.Students.Include(y => y.Usertype).SingleOrDefault(z=>z.Userid == CurrentUser);
+            var PriorStudent = db.Students.SingleOrDefault(z=>z.Userid == CurrentUser);
 
             foreach(var Lecture in LectureList)
             {
@@ -47,7 +47,7 @@ namespace CapStonePhase2.Controllers
         public ActionResult ViewCompletedCourses()
         {
             string CurrentUser = User.Identity.GetUserId();
-            var CurrentStudent = db.Students.Include(y => y.Usertype).SingleOrDefault(z => z.Userid == CurrentUser);
+            var CurrentStudent = db.Students.SingleOrDefault(z => z.Userid == CurrentUser);
             var StudentCourses = db.Students_Lectures.Include(y=>y.Lecture).Where(z => z.StudentId == CurrentStudent.Id).ToList();
 
             if (StudentCourses == null)
@@ -117,7 +117,7 @@ namespace CapStonePhase2.Controllers
             
             if (students == null)
             {
-                students = db.Students.Include(x=>x.Usertype).SingleOrDefault(y=>y.Userid == CurrentUser);
+                students = db.Students.SingleOrDefault(y=>y.Userid == CurrentUser);
             }
 
             return View(students);

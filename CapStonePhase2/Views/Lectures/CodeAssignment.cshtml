@@ -17,12 +17,18 @@
         <dd>
             @Html.DisplayFor(model => model.Lecture.CodeExample)
         </dd>
+        <dd>
+        </dd>
+        <dt>
+            Please Enter your code inside the Main method
+        </dt>
     </dl>
 </div>
 
-
-@using (Html.BeginForm("CodeAssignment", "Lectures", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@*@using (Html.BeginForm("CodeAssigned", "Lectures", FormMethod.Post, new { lectureId = Model.LectureId, studentId = Model.StudentId }))
 {
-    <input type="file" name="file" style="color:white"/>
-    <input type="submit" value="Upload" class="btn btn-primary" />
-}
+   <div class="CodeTextBox">
+         @Html.TextAreaFor(model=> model.StudentCode, new { name = "CodeText", value = Model. })
+   </div>
+    <input type="submit" value="Submit" class="btn btn-primary" />
+}*@
