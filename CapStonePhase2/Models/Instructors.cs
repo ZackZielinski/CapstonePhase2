@@ -8,6 +8,8 @@ namespace CapStonePhase2.Models
         [Key]
         public int Id { get; set; }
 
+        public string UserId { get; set; }
+
         [Display(Name = "First Name:")]
         public string FirstName { get; set; }
 

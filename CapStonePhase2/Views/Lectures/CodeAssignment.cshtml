@@ -17,18 +17,22 @@
         <dd>
             @Html.DisplayFor(model => model.Lecture.CodeExample)
         </dd>
-        <dd>
-        </dd>
         <dt>
-            Please Enter your code inside the Main method
+            Create a Method by using this template.
+            If you do not a void datatype, you will need to use the 'return' key to return a value.
         </dt>
+        <dd>
+            public datatype MethodName(){ }
+        </dd>
     </dl>
 </div>
 
-@*@using (Html.BeginForm("CodeAssigned", "Lectures", FormMethod.Post, new { lectureId = Model.LectureId, studentId = Model.StudentId }))
+@using (Html.BeginForm())
 {
    <div class="CodeTextBox">
-         @Html.TextAreaFor(model=> model.StudentCode, new { name = "CodeText", value = Model. })
+         @Html.TextAreaFor(model => model.StudentCode, new { name = "CodeText", value = Model.StudentCode })
    </div>
+   @Html.HiddenFor(model => model.StudentId)
+   @Html.HiddenFor(model => model.LectureId)
     <input type="submit" value="Submit" class="btn btn-primary" />
-}*@
+}

@@ -7,8 +7,6 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using Microsoft.AspNet.Identity;
 using System.IO;
-using System.Windows;
-using System;
 
 namespace CapStonePhase2.Controllers
 {
@@ -94,7 +92,7 @@ namespace CapStonePhase2.Controllers
 
             UpdateCodeFile(StudentCodeAnswers.CodeFileName, StudentCodeAnswers.StudentCode);
 
-            return RedirectToAction("Compiler", new { filename = $"{StudentCodeAnswers.CodeFileName}" });
+            return RedirectToAction("Compiler", new { filename = StudentCodeAnswers.CodeFileName });
         }
 
         public ActionResult Compiler(string filename)
@@ -206,7 +204,7 @@ namespace CapStonePhase2.Controllers
             string newLine = "\r\n";
             NewFile.WriteLine($"using System; {newLine}");
             NewFile.WriteLine($"public class Program {{ {newLine}");
-            NewFile.WriteLine($"static void Main(){{ {newLine + newLine + newLine + newLine} }} {newLine}}}");
+            NewFile.WriteLine($"static void Main(){{ }} {newLine}}}");
             NewFile.Close();
 
             return FilePath;

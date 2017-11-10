@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CapStonePhase2.Models.UnitTests>
+
+@{
+    ViewBag.Title = "Test Lists";
+}
+
+<h2>List Of Tests</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Test Created By:
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitTestFileName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Instructor.FirstName)<p> </p>
+            @Html.DisplayFor(modelItem => item.Instructor.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitTestFileName)
+        </td>
+    </tr>
+}
+
+</table>

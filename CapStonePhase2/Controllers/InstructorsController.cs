@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using CapStonePhase2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CapStonePhase2.Controllers
 {
@@ -81,6 +82,7 @@ namespace CapStonePhase2.Controllers
         {
             if (instructors.Id == 0)
             {
+                instructors.UserId = User.Identity.GetUserId();
                 db.Instructors.Add(instructors);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Students");
@@ -136,6 +138,24 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index", "Students");
         }
 
+        public ActionResult UnitTestList()
+        {
+            var ListOfTests = db.UnitTests.Include(x => x.Instructor).ToList();
+
+            return View(ListOfTests);
+        }
+
+        public ActionResult CreateUnitTest()
+        {
+            UnitTests NewTest = new UnitTests();
+            return View(NewTest);
+        }
+
+        [HttpPost]
+        public ActionResult CreateUnitTest(UnitTests NewTest)
+        {
+            return RedirectToAction("UnitTestList", "Instructors");
+        }
 
         protected void CheckIfStudentPassed(Students_Lectures Student)
         {

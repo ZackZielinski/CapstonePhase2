@@ -289,6 +289,18 @@
     <Compile Include="Migrations\201711092026063_created a StudentCode column.Designer.cs">
       <DependentUpon>201711092026063_created a StudentCode column.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711101619325_created a UnitTest model for instructors.cs" />
+    <Compile Include="Migrations\201711101619325_created a UnitTest model for instructors.Designer.cs">
+      <DependentUpon>201711101619325_created a UnitTest model for instructors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101926193_removed testTitle column.cs" />
+    <Compile Include="Migrations\201711101926193_removed testTitle column.Designer.cs">
+      <DependentUpon>201711101926193_removed testTitle column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711101950229_added a userId column for instructors.cs" />
+    <Compile Include="Migrations\201711101950229_added a userId column for instructors.Designer.cs">
+      <DependentUpon>201711101950229_added a userId column for instructors.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -297,12 +309,12 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Students.cs" />
     <Compile Include="Models\Students_Lectures.cs" />
+    <Compile Include="Models\UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-slate.css" />
-    <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -385,6 +397,8 @@
     <Content Include="Views\Lectures\CodeAssignment.cshtml" />
     <Content Include="Views\Students\Grade.cshtml" />
     <Content Include="Views\Students\ViewCompletedCourses.cshtml" />
+    <Content Include="Views\Instructors\CreateUnitTest.cshtml" />
+    <Content Include="Views\Instructors\UnitTestList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -460,6 +474,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711092026063_created a StudentCode column.resx">
       <DependentUpon>201711092026063_created a StudentCode column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101619325_created a UnitTest model for instructors.resx">
+      <DependentUpon>201711101619325_created a UnitTest model for instructors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101926193_removed testTitle column.resx">
+      <DependentUpon>201711101926193_removed testTitle column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711101950229_added a userId column for instructors.resx">
+      <DependentUpon>201711101950229_added a userId column for instructors.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
