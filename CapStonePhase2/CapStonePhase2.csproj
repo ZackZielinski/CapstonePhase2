@@ -322,6 +322,14 @@
     <Compile Include="Migrations\201711141739166_added a column in studentLectures to keep track of what methods are needed to be included in the code.Designer.cs">
       <DependentUpon>201711141739166_added a column in studentLectures to keep track of what methods are needed to be included in the code.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711142053327_removed methodstoinclude due to not finding proper return values.cs" />
+    <Compile Include="Migrations\201711142053327_removed methodstoinclude due to not finding proper return values.Designer.cs">
+      <DependentUpon>201711142053327_removed methodstoinclude due to not finding proper return values.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711142119195_added string columns to get CSV values of method names and their respective return values.cs" />
+    <Compile Include="Migrations\201711142119195_added string columns to get CSV values of method names and their respective return values.Designer.cs">
+      <DependentUpon>201711142119195_added string columns to get CSV values of method names and their respective return values.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -520,6 +528,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711141739166_added a column in studentLectures to keep track of what methods are needed to be included in the code.resx">
       <DependentUpon>201711141739166_added a column in studentLectures to keep track of what methods are needed to be included in the code.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711142053327_removed methodstoinclude due to not finding proper return values.resx">
+      <DependentUpon>201711142053327_removed methodstoinclude due to not finding proper return values.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711142119195_added string columns to get CSV values of method names and their respective return values.resx">
+      <DependentUpon>201711142119195_added string columns to get CSV values of method names and their respective return values.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

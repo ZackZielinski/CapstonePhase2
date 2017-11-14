@@ -7,7 +7,7 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using Microsoft.AspNet.Identity;
 using System.IO;
-using System;
+using System.Collections.Generic;
 
 namespace CapStonePhase2.Controllers
 {
@@ -143,13 +143,19 @@ namespace CapStonePhase2.Controllers
         {
             var Lecture = db.Lectures.Find(lectureid);
 
-            if(Lecture.CodeFileName == null || Lecture.CodeFileName == "")
+            if (Lecture.CodeFileName == null || Lecture.CodeFileName == "")
             {
                 Lecture.CodeFileName = GenerateNewCodeFile(Lecture.Topic);
-                db.SaveChanges();
                 Lecture.CodeFileText = GetFileText(Lecture.CodeFileName);
             }
             db.SaveChanges();
+
+            List<string> Lines = System.IO.File.ReadAllLines(Lecture.CodeFileName).ToList();
+
+            foreach(var line in Lines)
+            {
+                Lecture.ListOfMethods += FindMethod(line);
+            }
 
             return View(Lecture);
         }
@@ -223,6 +229,29 @@ namespace CapStonePhase2.Controllers
 
             return View(SelectedLecture);
         }
+
+        protected static string FindMethod(string FileText)
+        {
+            string MethodName = "";
+
+            for (int x = 1; x < FileText.Count(); x++)
+            {
+                if (FileText.ElementAt(x - 1) == '.')
+                {
+                    int y = x;
+                    while (FileText.ElementAt(y) != ')')
+                    {
+                        MethodName += FileText.ElementAt(y);
+                        y++;
+                    }
+                    MethodName += "), ";
+                    break;
+                }
+            }
+
+            return MethodName;
+        }
+
 
         protected void UpdateTestCodeFile(string FileName, string FileText)
         {
@@ -322,34 +351,12 @@ namespace CapStonePhase2.Controllers
             {
                 Student = AttendingStudent,
                 Lecture = SelectedLecture,
-                MethodsToIncludeInCode = FindCodeMethods(SelectedLecture.CodeFileName)
             };
 
             db.Students_Lectures.Add(StudentInLecture);
             AttendingStudent.Lectureid = lectureid;
             db.SaveChanges();
             return StudentInLecture;
-        }
-
-        protected string FindCodeMethods(string FileName)
-        {
-            string MethodCSVList = "";
-
-            var FileText = System.IO.File.ReadAllText(FileName).ToList();
-
-            for(int x = 0; x < FileText.Count(); x++)
-            {
-                if(FileText.ElementAt(x) == '.')
-                {
-                    while(FileText.ElementAt(x) != ')')
-                    {
-                        MethodCSVList += FileText.ElementAt(x);
-                    }
-                    MethodCSVList += "), ";
-                }
-            }
-
-            return MethodCSVList;
         }
 
         protected static CompilerResults CompileCsharpSource(string[] sources, string output, params string[] references)
