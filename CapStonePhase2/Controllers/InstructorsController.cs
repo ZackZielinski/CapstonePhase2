@@ -138,25 +138,6 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index", "Students");
         }
 
-        public ActionResult UnitTestList()
-        {
-            var ListOfTests = db.UnitTests.Include(x => x.Instructor).ToList();
-
-            return View(ListOfTests);
-        }
-
-        public ActionResult CreateUnitTest()
-        {
-            UnitTests NewTest = new UnitTests();
-            return View(NewTest);
-        }
-
-        [HttpPost]
-        public ActionResult CreateUnitTest(UnitTests NewTest)
-        {
-            return RedirectToAction("UnitTestList", "Instructors");
-        }
-
         protected void CheckIfStudentPassed(Students_Lectures Student)
         {
             var AttendedStudent = db.Students_Lectures.SingleOrDefault(z => z.StudentId == Student.StudentId && z.LectureId == Student.LectureId);

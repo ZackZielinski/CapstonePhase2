@@ -1,0 +1,22 @@
+﻿@model CapStonePhase2.Models.Lectures
+
+@{
+    ViewBag.Title = "Lecture Test";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayFor(model => model.CodeFileName)
+        </dt>
+        <dd>
+            <div class="CodeTextBox">
+                @Html.TextAreaFor(model => model.CodeFileText)
+            </div>
+        </dd>
+
+    </dl>
+</div>

@@ -19,7 +19,7 @@
         </dd>
         <dt>
             Create a Method by using this template.
-            If you do not a void datatype, you will need to use the 'return' key to return a value.
+            If you do not a void datatype, you will need to return a value by using the 'return' keyword at the end of your method.
         </dt>
         <dd>
             public datatype MethodName(){ }
@@ -30,7 +30,7 @@
 @using (Html.BeginForm())
 {
    <div class="CodeTextBox">
-         @Html.TextAreaFor(model => model.StudentCode, new { name = "CodeText", value = Model.StudentCode })
+         @Html.TextAreaFor(model => model.CodeFileText, new { value = Model.CodeFileText })
    </div>
    @Html.HiddenFor(model => model.StudentId)
    @Html.HiddenFor(model => model.LectureId)

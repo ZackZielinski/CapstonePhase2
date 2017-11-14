@@ -105,3 +105,8 @@ C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapSton
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.createdaUnitTestmodelforinstructors.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.removedtestTitlecolumn.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedauserIdcolumnforinstructors.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.renamedUnitTeststoCodeTests.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\bin\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.removedunnecessarytablesandcolumnsandcreatedabytecolumninstudent_lecturesandlecturestable.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.refactoredbytecolumnstostringcolumnsforfilenames.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedcodefiletextcolumnsforstudent_LecturesandLecturesmodel.resources

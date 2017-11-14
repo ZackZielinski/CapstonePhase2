@@ -77,6 +77,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -301,6 +302,22 @@
     <Compile Include="Migrations\201711101950229_added a userId column for instructors.Designer.cs">
       <DependentUpon>201711101950229_added a userId column for instructors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711131350539_renamed UnitTests to CodeTests.cs" />
+    <Compile Include="Migrations\201711131350539_renamed UnitTests to CodeTests.Designer.cs">
+      <DependentUpon>201711131350539_renamed UnitTests to CodeTests.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711141543414_removed unnecessary tables and columns and created a byte column in student_lectures and lectures table.cs" />
+    <Compile Include="Migrations\201711141543414_removed unnecessary tables and columns and created a byte column in student_lectures and lectures table.Designer.cs">
+      <DependentUpon>201711141543414_removed unnecessary tables and columns and created a byte column in student_lectures and lectures table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711141604094_refactored byte columns to string columns for file names.cs" />
+    <Compile Include="Migrations\201711141604094_refactored byte columns to string columns for file names.Designer.cs">
+      <DependentUpon>201711141604094_refactored byte columns to string columns for file names.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711141646072_added codefiletext columns for student_Lectures and Lectures model.cs" />
+    <Compile Include="Migrations\201711141646072_added codefiletext columns for student_Lectures and Lectures model.Designer.cs">
+      <DependentUpon>201711141646072_added codefiletext columns for student_Lectures and Lectures model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -309,7 +326,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Students.cs" />
     <Compile Include="Models\Students_Lectures.cs" />
-    <Compile Include="Models\UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -397,11 +413,13 @@
     <Content Include="Views\Lectures\CodeAssignment.cshtml" />
     <Content Include="Views\Students\Grade.cshtml" />
     <Content Include="Views\Students\ViewCompletedCourses.cshtml" />
-    <Content Include="Views\Instructors\CreateUnitTest.cshtml" />
-    <Content Include="Views\Instructors\UnitTestList.cshtml" />
+    <Content Include="Views\Lectures\CreateNewTest.cshtml" />
+    <Content Include="Views\Lectures\LectureTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="StudentCode\" />
+    <Folder Include="TestCode\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -483,6 +501,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711101950229_added a userId column for instructors.resx">
       <DependentUpon>201711101950229_added a userId column for instructors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711131350539_renamed UnitTests to CodeTests.resx">
+      <DependentUpon>201711131350539_renamed UnitTests to CodeTests.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711141543414_removed unnecessary tables and columns and created a byte column in student_lectures and lectures table.resx">
+      <DependentUpon>201711141543414_removed unnecessary tables and columns and created a byte column in student_lectures and lectures table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711141604094_refactored byte columns to string columns for file names.resx">
+      <DependentUpon>201711141604094_refactored byte columns to string columns for file names.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711141646072_added codefiletext columns for student_Lectures and Lectures model.resx">
+      <DependentUpon>201711141646072_added codefiletext columns for student_Lectures and Lectures model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

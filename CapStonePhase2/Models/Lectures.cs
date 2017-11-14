@@ -27,6 +27,10 @@ namespace CapStonePhase2.Models
         //Student Id placeholder
         public int StudentId { get; set; }
 
+        public string CodeFileName { get; set; }
+
+        public string CodeFileText { get; set; }
+
         public IList<Students_Lectures> Student_Lectures { get; set; }
 
     }

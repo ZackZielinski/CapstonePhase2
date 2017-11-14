@@ -7,6 +7,7 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using Microsoft.AspNet.Identity;
 using System.IO;
+using System;
 
 namespace CapStonePhase2.Controllers
 {
@@ -77,8 +78,6 @@ namespace CapStonePhase2.Controllers
             if (StudentAnswers == null)
             {
                 StudentAnswers = NewStudentInLecture(studentid, lectureid);
-                StudentAnswers.CodeFileName = GetNewCodeFile(StudentAnswers.Student.FirstName, StudentAnswers.Student.LastName, StudentAnswers.Lecture.Topic);
-                StudentAnswers.StudentCode = System.IO.File.ReadAllText(StudentAnswers.CodeFileName);
             }
             db.SaveChanges();
             return View(StudentAnswers);
@@ -88,11 +87,8 @@ namespace CapStonePhase2.Controllers
         public ActionResult CodeAssignment(int lectureId, int studentId, string CodeText)
         {
             var StudentCodeAnswers = db.Students_Lectures.SingleOrDefault(x => x.LectureId == lectureId && x.StudentId == studentId);
-            StudentCodeAnswers.StudentCode = CodeText;
 
-            UpdateCodeFile(StudentCodeAnswers.CodeFileName, StudentCodeAnswers.StudentCode);
-
-            return RedirectToAction("Compiler", new { filename = StudentCodeAnswers.CodeFileName });
+            return RedirectToAction("Compiler", new { filename = "" });
         }
 
         public ActionResult Compiler(string filename)
@@ -136,10 +132,38 @@ namespace CapStonePhase2.Controllers
             {
                 db.Lectures.Add(lectures);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var NewLecture = db.Lectures.Find(lectures);
+                return RedirectToAction("CreateNewTest", new { lectureid = NewLecture.Id });
             }
 
             return View(lectures);
+        }
+
+        public ActionResult CreateNewTest(int lectureid)
+        {
+            var Lecture = db.Lectures.Find(lectureid);
+
+            if(Lecture.CodeFileName == null || Lecture.CodeFileName == "")
+            {
+                Lecture.CodeFileName = GenerateNewCodeFile(Lecture.Topic);
+                db.SaveChanges();
+                Lecture.CodeFileText = GetFileText(Lecture.CodeFileName);
+            }
+            db.SaveChanges();
+
+            return View(Lecture);
+        }
+
+        [HttpPost]
+        public ActionResult CreateNewTest(Lectures lecture)
+        {
+            var Currentlecture = db.Lectures.Find(lecture.Id);
+
+            Currentlecture.CodeFileText = lecture.CodeFileText;
+            db.SaveChanges();
+            UpdateTestCodeFile(Currentlecture.CodeFileName, Currentlecture.CodeFileText);
+
+            return RedirectToAction("Index");
         }
 
         // GET: Lectures/Edit/5
@@ -188,26 +212,48 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index");
         }
 
-        protected void UpdateCodeFile(string CodeFileName, string FileText)
+        public ActionResult LectureTest(int? id)
         {
-            StreamWriter UpdatedFile = new StreamWriter(CodeFileName);
-            UpdatedFile.WriteLine($"{FileText}");
-            UpdatedFile.Close();
+            if(id == null)
+            {
+                return HttpNotFound();
+            }
+
+            var SelectedLecture = db.Lectures.Find(id);
+
+            return View(SelectedLecture);
+        }
+
+        protected void UpdateTestCodeFile(string FileName, string FileText)
+        {
+            var TestCodeFile = new StreamWriter(FileName);
+            TestCodeFile.WriteLine(FileText);
+            TestCodeFile.Close();
         }
 
 
-        protected string GetNewCodeFile(string StudentFirstName, string StudentLastname, string Lecture)
+        protected string GetFileText(string FileName)
         {
-            string FilePath = $@"{StudentFirstName}{StudentLastname}{Lecture}.txt";
+            string FileText = System.IO.File.ReadAllText(FileName);
 
-            StreamWriter NewFile = new StreamWriter(FilePath);
-            string newLine = "\r\n";
-            NewFile.WriteLine($"using System; {newLine}");
-            NewFile.WriteLine($"public class Program {{ {newLine}");
-            NewFile.WriteLine($"static void Main(){{ }} {newLine}}}");
+            return FileText;
+        }
+
+        protected string GenerateNewCodeFile(string LectureTopic)
+        {
+            string TestCodeFilePath = @"C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\TestCode";
+
+            string NewFilePath = $@"{ TestCodeFilePath }\{LectureTopic}Test.cs";
+
+            StreamWriter NewFile = new StreamWriter($@"{NewFilePath}");
+            string NewLine = "\r\n";
+            NewFile.WriteLine($"using System;{NewLine}");
+            NewFile.WriteLine($"public class Program {{{NewLine}");
+            NewFile.WriteLine($"static void Main(){{ {NewLine}");
+            NewFile.WriteLine($"{NewLine} }} {NewLine} }}");
             NewFile.Close();
 
-            return FilePath;
+            return NewFilePath;
         }
 
         protected Students_Lectures InsertErrors(CompilerErrorCollection results)
