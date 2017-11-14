@@ -110,3 +110,4 @@ C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\bin\Microsoft.Vis
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.removedunnecessarytablesandcolumnsandcreatedabytecolumninstudent_lecturesandlecturestable.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.refactoredbytecolumnstostringcolumnsforfilenames.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedcodefiletextcolumnsforstudent_LecturesandLecturesmodel.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedacolumninstudentLecturestokeeptrackofwhatmethodsareneededtobeincludedinthecode.resources

@@ -55,6 +55,8 @@ namespace CapStonePhase2.Models
 
         public string CodeFileText { get; set; }
 
+        public string MethodsToIncludeInCode { get; set; }
+
         public IEnumerable<Students_Lectures> StudentInLectures { get; set; }
     }
 }

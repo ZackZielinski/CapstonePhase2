@@ -321,13 +321,35 @@ namespace CapStonePhase2.Controllers
             Students_Lectures StudentInLecture = new Students_Lectures()
             {
                 Student = AttendingStudent,
-                Lecture = SelectedLecture
+                Lecture = SelectedLecture,
+                MethodsToIncludeInCode = FindCodeMethods(SelectedLecture.CodeFileName)
             };
 
             db.Students_Lectures.Add(StudentInLecture);
             AttendingStudent.Lectureid = lectureid;
             db.SaveChanges();
             return StudentInLecture;
+        }
+
+        protected string FindCodeMethods(string FileName)
+        {
+            string MethodCSVList = "";
+
+            var FileText = System.IO.File.ReadAllText(FileName).ToList();
+
+            for(int x = 0; x < FileText.Count(); x++)
+            {
+                if(FileText.ElementAt(x) == '.')
+                {
+                    while(FileText.ElementAt(x) != ')')
+                    {
+                        MethodCSVList += FileText.ElementAt(x);
+                    }
+                    MethodCSVList += "), ";
+                }
+            }
+
+            return MethodCSVList;
         }
 
         protected static CompilerResults CompileCsharpSource(string[] sources, string output, params string[] references)
