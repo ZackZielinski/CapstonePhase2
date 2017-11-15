@@ -8,6 +8,7 @@ using Microsoft.CSharp;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using System.Collections.Generic;
+using System;
 
 namespace CapStonePhase2.Controllers
 {
@@ -164,15 +165,14 @@ namespace CapStonePhase2.Controllers
 
             List<string> Lines = System.IO.File.ReadAllLines(Currentlecture.CodeFileName).ToList();
 
-            foreach (var line in Lines)
-            {
-                Currentlecture.ListOfMethods.Add(FindMethod(line));
-            }
+            Currentlecture.ListOfMethods = StartFindingMethods(Lines);
+            Currentlecture.ListOfReturnValues = StartFindingReturnValues(Lines);
+
             db.SaveChanges();
-            return RedirectToAction("ConfigureMethods", new { id = Currentlecture.Id });
+            return RedirectToAction("ConfigureReturnValues", new { id = Currentlecture.Id });
         }
 
-        public ActionResult ConfigureMethods(int id)
+        public ActionResult ConfigureReturnValues(int id)
         {
             var Lecture = db.Lectures.Find(id);
 
@@ -241,6 +241,7 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index");
         }
 
+        //Option: create View Of Test
         public ActionResult LectureTest(int? id)
         {
             if(id == null)
@@ -253,18 +254,101 @@ namespace CapStonePhase2.Controllers
             return View(SelectedLecture);
         }
 
-        protected string FindMethod(string FileText)
+        protected List<string> StartFindingReturnValues(List<string> LinesInFile)
+        {
+            List<string> ReturnValuesList = new List<string>();
+            string ReturnType = "";
+            bool IsMethodStaticOrAbstract = false;
+
+            foreach(var line in LinesInFile)
+            {
+                if (line.Contains("static") || line.Contains("abstract"))
+                {
+                    IsMethodStaticOrAbstract = true;
+                }
+                if (line.Contains("protected") || line.Contains("private") || line.Contains("public"))
+                {
+                    FindReturnValue(line, IsMethodStaticOrAbstract);
+                }
+
+                if(ReturnType != "" || ReturnType != null)
+                {
+                    ReturnValuesList.Add(ReturnType);
+                }
+
+            }
+
+            foreach(var ReturnValue in ReturnValuesList)
+            {
+            }
+            return ReturnValuesList;
+        }
+
+
+        protected static string FindReturnValue(string LineText, bool IsMethodStaticOrAbstract)
+        {
+            string ReturnType = "";
+
+            for (int x = 1; x < LineText.Count(); x++)
+            {
+                if (LineText.ElementAt(x - 1) == ' ' && IsMethodStaticOrAbstract == false)
+                {
+                    int y = x;
+                    while (LineText.ElementAt(y) != ' ')
+                    {
+                        ReturnType += LineText.ElementAt(y);
+                        y++;
+                    }
+                    break;
+                }
+                else if (LineText.ElementAt(x - 1) == ' ' && IsMethodStaticOrAbstract == true)
+                {
+                    x++;
+                    IsMethodStaticOrAbstract = false;
+                }
+            }
+
+            return ReturnType;
+        }
+
+        protected List<string> StartFindingMethods(List<string> LinesinFile)
+        {
+            List<string> MethodList = new List<string>();
+            string Method;
+            int ClosingBracketsRead = 0;
+
+            foreach (var line in LinesinFile)
+            {
+                if (line.Contains("}"))
+                {
+                    ClosingBracketsRead++;
+                    if (ClosingBracketsRead > 1)
+                    {
+                        break;
+                    }
+                }
+
+                Method = FindMethod(line);
+                if (Method != "" || Method != null)
+                {
+                    MethodList.Add(Method);
+                }
+            }
+            return MethodList;
+        }
+
+        protected string FindMethod(string LineText)
         {
             string MethodName = "";
 
-            for (int x = 1; x < FileText.Count(); x++)
+            for (int x = 1; x < LineText.Count(); x++)
             {
-                if (FileText.ElementAt(x - 1) == '.')
+                if (LineText.ElementAt(x - 1) == '.')
                 {
                     int y = x;
-                    while (FileText.ElementAt(y) != ')')
+                    while (LineText.ElementAt(y) != ')')
                     {
-                        MethodName += FileText.ElementAt(y);
+                        MethodName += LineText.ElementAt(y);
                         y++;
                     }
                     MethodName += ")";
@@ -302,7 +386,7 @@ namespace CapStonePhase2.Controllers
             NewFile.WriteLine($"using System;{NewLine}");
             NewFile.WriteLine($"public class Program {{{NewLine}");
             NewFile.WriteLine($"static void Main(){{ {NewLine}");
-            NewFile.WriteLine($"{NewLine} }} {NewLine} }}");
+            NewFile.WriteLine($"{NewLine} }} }}");
             NewFile.Close();
 
             return NewFilePath;
