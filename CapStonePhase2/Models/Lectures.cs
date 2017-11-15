@@ -8,8 +8,8 @@ namespace CapStonePhase2.Models
     {
         public Lectures()
         {
-            ListOfMethods = "";
-            ListOfReturnValues = "";
+            ListOfMethods = new List<string>();
+            ListOfReturnValues = new List<string>();
         }
 
         [Key]
@@ -38,10 +38,10 @@ namespace CapStonePhase2.Models
         public string CodeFileText { get; set; }
 
         [Display(Name = "Methods Required:")]
-        public string ListOfMethods { get; set; }
+        public List<string> ListOfMethods { get; set; }
 
         [Display(Name = "Respective Return Values:")]
-        public string ListOfReturnValues { get; set; }
+        public List<string> ListOfReturnValues { get; set; }
 
         public IList<Students_Lectures> Student_Lectures { get; set; }
 

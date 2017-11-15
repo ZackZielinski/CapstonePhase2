@@ -12,6 +12,8 @@ namespace CapStonePhase2.Models
             ListOfErrors = new CompilerErrorCollection();
             ListOfWarnings = new CompilerErrorCollection();
             CodeRewards = "Awesome-sauce!";
+            ListOfMethods = new List<string>();
+            ListOfReturnValues = new List<string>();
         }
 
         [ForeignKey("StudentId")]
@@ -54,6 +56,10 @@ namespace CapStonePhase2.Models
         public string CodeFileName { get; set; }
 
         public string CodeFileText { get; set; }
+
+        public List<string> ListOfMethods { get; set; }
+
+        public List<string> ListOfReturnValues { get; set; }
 
         public IEnumerable<Students_Lectures> StudentInLectures { get; set; }
     }

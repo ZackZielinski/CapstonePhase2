@@ -150,13 +150,6 @@ namespace CapStonePhase2.Controllers
             }
             db.SaveChanges();
 
-            List<string> Lines = System.IO.File.ReadAllLines(Lecture.CodeFileName).ToList();
-
-            foreach(var line in Lines)
-            {
-                Lecture.ListOfMethods += FindMethod(line);
-            }
-
             return View(Lecture);
         }
 
@@ -169,7 +162,37 @@ namespace CapStonePhase2.Controllers
             db.SaveChanges();
             UpdateTestCodeFile(Currentlecture.CodeFileName, Currentlecture.CodeFileText);
 
-            return RedirectToAction("Index");
+            List<string> Lines = System.IO.File.ReadAllLines(Currentlecture.CodeFileName).ToList();
+
+            foreach (var line in Lines)
+            {
+                Currentlecture.ListOfMethods.Add(FindMethod(line));
+            }
+            db.SaveChanges();
+            return RedirectToAction("ConfigureMethods", new { id = Currentlecture.Id });
+        }
+
+        public ActionResult ConfigureMethods(int id)
+        {
+            var Lecture = db.Lectures.Find(id);
+
+            if(Lecture == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(Lecture);
+        }
+
+        public ActionResult DeleteMethod(int lectureid, string method)
+        {
+            var Lecture = db.Lectures.Find(lectureid);
+
+            Lecture.ListOfMethods.Remove(method);
+
+            db.SaveChanges();
+
+            return RedirectToAction("ConfigureMethods", new { id = Lecture.Id });
         }
 
         // GET: Lectures/Edit/5
@@ -230,7 +253,7 @@ namespace CapStonePhase2.Controllers
             return View(SelectedLecture);
         }
 
-        protected static string FindMethod(string FileText)
+        protected string FindMethod(string FileText)
         {
             string MethodName = "";
 
@@ -244,7 +267,7 @@ namespace CapStonePhase2.Controllers
                         MethodName += FileText.ElementAt(y);
                         y++;
                     }
-                    MethodName += "), ";
+                    MethodName += ")";
                     break;
                 }
             }

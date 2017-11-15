@@ -330,6 +330,10 @@
     <Compile Include="Migrations\201711142119195_added string columns to get CSV values of method names and their respective return values.Designer.cs">
       <DependentUpon>201711142119195_added string columns to get CSV values of method names and their respective return values.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.cs" />
+    <Compile Include="Migrations\201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.Designer.cs">
+      <DependentUpon>201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -427,6 +431,7 @@
     <Content Include="Views\Students\ViewCompletedCourses.cshtml" />
     <Content Include="Views\Lectures\CreateNewTest.cshtml" />
     <Content Include="Views\Lectures\LectureTest.cshtml" />
+    <Content Include="Views\Lectures\ConfigureMethods.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -534,6 +539,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711142119195_added string columns to get CSV values of method names and their respective return values.resx">
       <DependentUpon>201711142119195_added string columns to get CSV values of method names and their respective return values.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.resx">
+      <DependentUpon>201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

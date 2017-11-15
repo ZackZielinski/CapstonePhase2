@@ -1,0 +1,29 @@
+﻿@model CapStonePhase2.Models.Lectures
+
+@{
+    ViewBag.Title = "Configure Methods";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            List Of Methods Found in file @Html.DisplayFor(model => model.CodeFileName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var method in Model.ListOfMethods) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => method) |
+        </td>
+        <td>
+            @Html.ActionLink("Delete Method", "DeleteMethod", new { lectureid = Model.Id, method = method })
+        </td>
+    </tr>
+}
+</table>
+

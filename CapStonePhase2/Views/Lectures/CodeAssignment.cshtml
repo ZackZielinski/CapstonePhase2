@@ -20,11 +20,9 @@
         <dt>
             You will need to implement these Methods in your program: 
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MethodsToIncludeInCode)
-        </dd>
+        @foreach(var method in Model.l)
         <dt>
-            Create a Method by using this template.
+            Create a new method by using this template.
             If you do not a void datatype, you will need to return a value by using the 'return' keyword at the end of your method.
         </dt>
         <dd>
