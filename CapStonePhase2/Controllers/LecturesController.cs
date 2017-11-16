@@ -165,34 +165,41 @@ namespace CapStonePhase2.Controllers
 
             List<string> Lines = System.IO.File.ReadAllLines(Currentlecture.CodeFileName).ToList();
 
-            Currentlecture.ListOfMethods = StartFindingMethods(Lines);
-            Currentlecture.ListOfReturnValues = StartFindingReturnValues(Lines);
-
+            Currentlecture.ListOfMethodNames = StartFindingMethods(Lines);
+            
             db.SaveChanges();
-            return RedirectToAction("ConfigureReturnValues", new { id = Currentlecture.Id });
+            return RedirectToAction("ConfigureMethods", new { id = Currentlecture.Id });
         }
 
-        public ActionResult ConfigureReturnValues(int id)
+        public ActionResult ConfigureMethods(int? id)
         {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             var Lecture = db.Lectures.Find(id);
 
             if(Lecture == null)
             {
                 return HttpNotFound();
             }
+            
+            foreach(var MethodName in Lecture.ListOfMethodNames)
+            {
+                Lecture.MethodsAndReturnValues.Add(MethodName, null);
+            }
+
+            db.SaveChanges();
 
             return View(Lecture);
         }
 
-        public ActionResult DeleteMethod(int lectureid, string method)
+        [HttpPost]
+        public ActionResult ConfiureMethods(Lectures Lecture)
         {
-            var Lecture = db.Lectures.Find(lectureid);
 
-            Lecture.ListOfMethods.Remove(method);
-
-            db.SaveChanges();
-
-            return RedirectToAction("ConfigureMethods", new { id = Lecture.Id });
+            return View();
         }
 
         // GET: Lectures/Edit/5
@@ -254,62 +261,6 @@ namespace CapStonePhase2.Controllers
             return View(SelectedLecture);
         }
 
-        protected List<string> StartFindingReturnValues(List<string> LinesInFile)
-        {
-            List<string> ReturnValuesList = new List<string>();
-            string ReturnType = "";
-            bool IsMethodStaticOrAbstract = false;
-
-            foreach(var line in LinesInFile)
-            {
-                if (line.Contains("static") || line.Contains("abstract"))
-                {
-                    IsMethodStaticOrAbstract = true;
-                }
-                if (line.Contains("protected") || line.Contains("private") || line.Contains("public"))
-                {
-                    FindReturnValue(line, IsMethodStaticOrAbstract);
-                }
-
-                if(ReturnType != "" || ReturnType != null)
-                {
-                    ReturnValuesList.Add(ReturnType);
-                }
-
-            }
-
-            foreach(var ReturnValue in ReturnValuesList)
-            {
-            }
-            return ReturnValuesList;
-        }
-
-
-        protected static string FindReturnValue(string LineText, bool IsMethodStaticOrAbstract)
-        {
-            string ReturnType = "";
-
-            for (int x = 1; x < LineText.Count(); x++)
-            {
-                if (LineText.ElementAt(x - 1) == ' ' && IsMethodStaticOrAbstract == false)
-                {
-                    int y = x;
-                    while (LineText.ElementAt(y) != ' ')
-                    {
-                        ReturnType += LineText.ElementAt(y);
-                        y++;
-                    }
-                    break;
-                }
-                else if (LineText.ElementAt(x - 1) == ' ' && IsMethodStaticOrAbstract == true)
-                {
-                    x++;
-                    IsMethodStaticOrAbstract = false;
-                }
-            }
-
-            return ReturnType;
-        }
 
         protected List<string> StartFindingMethods(List<string> LinesinFile)
         {

@@ -6,7 +6,7 @@
 
 <h2>Test for @Model.Topic</h2>
 
-<h4>Create Methods to check if the student will fufill the requirements of the assignment</h4>
+<h4>Create Test Methods for the student to fufill the requirements of the assignment</h4>
 
 @using (Html.BeginForm()) 
 {
@@ -16,7 +16,7 @@
     <div class="form-horizontal">
 
         <div class="CodeTextBox">
-            @Html.TextAreaFor(model => model.CodeFileText, Model.CodeFileText)
+            @Html.TextAreaFor(model => model.CodeFileText)
         </div>
         @Html.ValidationMessageFor(model => model.CodeFileText, "", new { @class = "text-danger" })
     </div>

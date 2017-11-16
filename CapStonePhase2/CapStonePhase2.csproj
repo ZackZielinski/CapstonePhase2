@@ -430,7 +430,6 @@
     <Content Include="Views\Students\Grade.cshtml" />
     <Content Include="Views\Students\ViewCompletedCourses.cshtml" />
     <Content Include="Views\Lectures\CreateNewTest.cshtml" />
-    <Content Include="Views\Lectures\LectureTest.cshtml" />
     <Content Include="Views\Lectures\ConfigureMethods.cshtml" />
   </ItemGroup>
   <ItemGroup>
