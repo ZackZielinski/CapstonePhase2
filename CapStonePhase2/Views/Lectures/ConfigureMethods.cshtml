@@ -5,12 +5,13 @@
 }
 
 <h2>Methods and Return Values Found</h2>
-<h4>These Methods were found in the test file created</h4>
+<h4>These Methods were found in the tests created</h4>
 <h4>Please enter the respective return value for each method found</h4>
 
 
     @using (Html.BeginForm())
     {
+        @Html.HiddenFor(model => model.Id)
         <div class="form-horizontal">
             <hr/>
                 @foreach (var item in Model.MethodsAndReturnValues)

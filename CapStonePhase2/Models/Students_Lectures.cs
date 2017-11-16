@@ -12,8 +12,7 @@ namespace CapStonePhase2.Models
             ListOfErrors = new CompilerErrorCollection();
             ListOfWarnings = new CompilerErrorCollection();
             CodeRewards = "Awesome-sauce!";
-            ListOfMethods = new List<string>();
-            ListOfReturnValues = new List<string>();
+            MethodsAndReturnValues = new Dictionary<string, string>();
         }
 
         [ForeignKey("StudentId")]
@@ -57,9 +56,8 @@ namespace CapStonePhase2.Models
 
         public string CodeFileText { get; set; }
 
-        public List<string> ListOfMethods { get; set; }
-
-        public List<string> ListOfReturnValues { get; set; }
+        [Display(Name = "Methods with their Respective Return Values")]
+        public Dictionary<string, string> MethodsAndReturnValues { get; set; }
 
         public IEnumerable<Students_Lectures> StudentInLectures { get; set; }
     }

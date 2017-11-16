@@ -146,7 +146,7 @@ namespace CapStonePhase2.Controllers
 
             if (Lecture.CodeFileName == null || Lecture.CodeFileName == "")
             {
-                Lecture.CodeFileName = GenerateNewCodeFile(Lecture.Topic);
+                Lecture.CodeFileName = GenerateNewTestFile(Lecture.Topic);
                 Lecture.CodeFileText = GetFileText(Lecture.CodeFileName);
             }
             db.SaveChanges();
@@ -157,18 +157,20 @@ namespace CapStonePhase2.Controllers
         [HttpPost]
         public ActionResult CreateNewTest(Lectures lecture)
         {
-            var Currentlecture = db.Lectures.Find(lecture.Id);
+            var LectureInDB = db.Lectures.Find(lecture.Id);
 
-            Currentlecture.CodeFileText = lecture.CodeFileText;
+            LectureInDB.CodeFileText = lecture.CodeFileText;
             db.SaveChanges();
-            UpdateTestCodeFile(Currentlecture.CodeFileName, Currentlecture.CodeFileText);
+            UpdateTestCodeFile(LectureInDB.CodeFileName, LectureInDB.CodeFileText);
 
-            List<string> Lines = System.IO.File.ReadAllLines(Currentlecture.CodeFileName).ToList();
+            List<string> Lines = System.IO.File.ReadAllLines(LectureInDB.CodeFileName).ToList();
 
-            Currentlecture.ListOfMethodNames = StartFindingMethods(Lines);
+            List<string> LinesWithoutMainMethod = FilterOutMainMethod(Lines);
+
+            LectureInDB.ListOfMethodNames = StartFindingMethods(LinesWithoutMainMethod);
             
             db.SaveChanges();
-            return RedirectToAction("ConfigureMethods", new { id = Currentlecture.Id });
+            return RedirectToAction("ConfigureMethods", new { id = LectureInDB.Id });
         }
 
         public ActionResult ConfigureMethods(int? id)
@@ -198,8 +200,13 @@ namespace CapStonePhase2.Controllers
         [HttpPost]
         public ActionResult ConfiureMethods(Lectures Lecture)
         {
+            var LectureinDB = db.Lectures.Find(Lecture.Id);
 
-            return View();
+            LectureinDB.MethodsAndReturnValues = Lecture.MethodsAndReturnValues;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         // GET: Lectures/Edit/5
@@ -248,17 +255,31 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index");
         }
 
-        //Option: create View Of Test
-        public ActionResult LectureTest(int? id)
+        protected List<string> FilterOutMainMethod(List<string> LinesInFile)
         {
-            if(id == null)
+            List<string> LinesWithoutMainMethod = new List<string>();
+            int UnfinishedBrackets = -1;
+            bool EndofMainMethod = false;
+
+            foreach(var line in LinesInFile)
             {
-                return HttpNotFound();
+                if (UnfinishedBrackets == 0)
+                {
+                    EndofMainMethod = true;
+                    LinesWithoutMainMethod.Add(line);
+                }
+
+                if (line.Contains('{') && !EndofMainMethod)
+                {
+                    UnfinishedBrackets++;
+                }
+                if (line.Contains('}') && !EndofMainMethod)
+                {
+                    UnfinishedBrackets--;
+                }
             }
 
-            var SelectedLecture = db.Lectures.Find(id);
-
-            return View(SelectedLecture);
+            return LinesWithoutMainMethod;
         }
 
 
@@ -266,19 +287,9 @@ namespace CapStonePhase2.Controllers
         {
             List<string> MethodList = new List<string>();
             string Method;
-            int ClosingBracketsRead = 0;
 
             foreach (var line in LinesinFile)
             {
-                if (line.Contains("}"))
-                {
-                    ClosingBracketsRead++;
-                    if (ClosingBracketsRead > 1)
-                    {
-                        break;
-                    }
-                }
-
                 Method = FindMethod(line);
                 if (Method != "" || Method != null)
                 {
@@ -326,7 +337,7 @@ namespace CapStonePhase2.Controllers
             return FileText;
         }
 
-        protected string GenerateNewCodeFile(string LectureTopic)
+        protected string GenerateNewTestFile(string LectureTopic)
         {
             string TestCodeFilePath = @"C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\TestCode";
 
