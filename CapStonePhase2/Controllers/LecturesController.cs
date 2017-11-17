@@ -133,7 +133,9 @@ namespace CapStonePhase2.Controllers
             {
                 db.Lectures.Add(lectures);
                 db.SaveChanges();
-                var NewLecture = db.Lectures.Find(lectures);
+
+                var NewLecture = db.Lectures.SingleOrDefault(x=>x.Id == lectures.Id);
+
                 return RedirectToAction("CreateNewTest", new { lectureid = NewLecture.Id });
             }
 
@@ -255,27 +257,26 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index");
         }
 
-        protected List<string> FilterOutMainMethod(List<string> LinesInFile)
+        public static List<string> FilterOutMainMethod(List<string> LinesInFile)
         {
             List<string> LinesWithoutMainMethod = new List<string>();
-            int UnfinishedBrackets = -1;
-            bool EndofMainMethod = false;
+            int UnfinishedBrackets = 0;
 
-            foreach(var line in LinesInFile)
+            foreach (var line in LinesInFile)
             {
-                if (UnfinishedBrackets == 0)
+                if (line.Contains('{'))
                 {
-                    EndofMainMethod = true;
-                    LinesWithoutMainMethod.Add(line);
+                    UnfinishedBrackets--;
                 }
 
-                if (line.Contains('{') && !EndofMainMethod)
+                if (line.Contains('}'))
                 {
                     UnfinishedBrackets++;
                 }
-                if (line.Contains('}') && !EndofMainMethod)
+
+                if (UnfinishedBrackets == 0)
                 {
-                    UnfinishedBrackets--;
+                    LinesWithoutMainMethod.Add(line);
                 }
             }
 
