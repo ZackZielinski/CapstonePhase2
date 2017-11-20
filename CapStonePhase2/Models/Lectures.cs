@@ -6,11 +6,6 @@ namespace CapStonePhase2.Models
 {
     public class Lectures
     {
-        public Lectures()
-        {
-            ListOfMethodNames = new List<string>();
-            MethodsAndReturnValues = new Dictionary<string, string>();
-        }
 
         [Key]
         public int Id { get; set; }
@@ -37,11 +32,7 @@ namespace CapStonePhase2.Models
 
         public string CodeFileText { get; set; }
 
-        [Display(Name = "Methods found with Respective Return Values")]
-        public Dictionary<string,string> MethodsAndReturnValues { get; set; }
-
-        [Display(Name = "Methods Found")]
-        public List<string> ListOfMethodNames { get; set; }
+        public ICollection<Methods> MethodsAndReturnValues { get; set; }
 
         public IList<Students_Lectures> Student_Lectures { get; set; }
 

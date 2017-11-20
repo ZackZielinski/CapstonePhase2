@@ -18,8 +18,7 @@ StudentTest.DoesStudentHaveFloatVariable();
 
 StudentTest.DoesStudentHaveBooleanVariable();
 
- }
-}
+ } }
 
 public class VariableTests
     {
@@ -118,7 +117,7 @@ public void DoesStudentHaveStringVariable()
             Type StudentVariable;
             bool IsStudentVariableBoolean = false;
 
-            StudentVariable = typeof(Program.DisplayFact());
+            StudentVariable = typeof(Program.DisplayFunFact());
 
             if (StudentVariable == BooleanVariable)
             {
@@ -131,4 +130,3 @@ public void DoesStudentHaveStringVariable()
         }
 
     }
-

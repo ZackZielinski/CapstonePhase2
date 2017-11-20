@@ -334,12 +334,17 @@
     <Compile Include="Migrations\201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.Designer.cs">
       <DependentUpon>201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.cs" />
+    <Compile Include="Migrations\201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.Designer.cs">
+      <DependentUpon>201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Instructors.cs" />
     <Compile Include="Models\Lectures.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Methods.cs" />
     <Compile Include="Models\Students.cs" />
     <Compile Include="Models\Students_Lectures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -541,6 +546,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.resx">
       <DependentUpon>201711151343457_refactored ListOfMethods and ListOfReturnValues to lists and not one string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.resx">
+      <DependentUpon>201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

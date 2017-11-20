@@ -162,36 +162,36 @@ namespace CapStonePhase2.Controllers
             var LectureInDB = db.Lectures.Find(lecture.Id);
 
             LectureInDB.CodeFileText = lecture.CodeFileText;
-            db.SaveChanges();
+ 
             UpdateTestCodeFile(LectureInDB.CodeFileName, LectureInDB.CodeFileText);
-
-            List<string> Lines = System.IO.File.ReadAllLines(LectureInDB.CodeFileName).ToList();
-
-            List<string> LinesWithoutMainMethod = FilterOutMainMethod(Lines);
-
-            LectureInDB.ListOfMethodNames = StartFindingMethods(LinesWithoutMainMethod);
             
             db.SaveChanges();
             return RedirectToAction("ConfigureMethods", new { id = LectureInDB.Id });
         }
 
-        public ActionResult ConfigureMethods(int? id)
+        public ActionResult ConfigureMethods(int id)
         {
-            if(id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-
+           
             var Lecture = db.Lectures.Find(id);
 
             if(Lecture == null)
             {
                 return HttpNotFound();
             }
-            
-            foreach(var MethodName in Lecture.ListOfMethodNames)
+
+            List<string> Lines = System.IO.File.ReadAllLines(Lecture.CodeFileName).ToList();
+
+            List<string> LinesWithoutMainMethod = FilterOutMainMethod(Lines);
+
+            List<string> ListOfMethodNames = StartFindingMethods(LinesWithoutMainMethod);
+
+            foreach(var method in ListOfMethodNames)
             {
-                Lecture.MethodsAndReturnValues.Add(MethodName, null);
+                Methods NewMethod = new Methods()
+                {
+                    MethodName = method,
+                    Lectureid = id
+                };
             }
 
             db.SaveChanges();
@@ -203,10 +203,6 @@ namespace CapStonePhase2.Controllers
         public ActionResult ConfiureMethods(Lectures Lecture)
         {
             var LectureinDB = db.Lectures.Find(Lecture.Id);
-
-            LectureinDB.MethodsAndReturnValues = Lecture.MethodsAndReturnValues;
-
-            db.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -257,24 +253,39 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index");
         }
 
-        public static List<string> FilterOutMainMethod(List<string> LinesInFile)
+        protected static List<string> FilterOutMainMethod(List<string> LinesInFile)
         {
             List<string> LinesWithoutMainMethod = new List<string>();
             int UnfinishedBrackets = 0;
+            int EndingBrackets = 0;
+            bool EndOfMainMethod = false;
+
 
             foreach (var line in LinesInFile)
             {
                 if (line.Contains('{'))
                 {
-                    UnfinishedBrackets--;
+                    UnfinishedBrackets += FindAllStartingBrackets(line);
                 }
 
                 if (line.Contains('}'))
                 {
-                    UnfinishedBrackets++;
+                    EndingBrackets = FindAllEndingBrackets(line);
+                    UnfinishedBrackets -= EndingBrackets;
                 }
 
-                if (UnfinishedBrackets == 0)
+                if (UnfinishedBrackets == 0 && EndOfMainMethod == false)
+                {
+                    LinesWithoutMainMethod.Add(line);
+                }
+
+                if (EndingBrackets == 2 && EndOfMainMethod == false)
+                {
+                    EndOfMainMethod = true;
+                    continue;
+                }
+
+                if (EndOfMainMethod == true)
                 {
                     LinesWithoutMainMethod.Add(line);
                 }
@@ -283,16 +294,51 @@ namespace CapStonePhase2.Controllers
             return LinesWithoutMainMethod;
         }
 
+        protected static int FindAllStartingBrackets(string line)
+        {
+            int StartingBracketsfound = 0;
 
-        protected List<string> StartFindingMethods(List<string> LinesinFile)
+            foreach (var character in line)
+            {
+                if (character == '{')
+                {
+                    StartingBracketsfound++;
+                }
+            }
+
+            return StartingBracketsfound;
+        }
+
+        protected static int FindAllEndingBrackets(string line)
+        {
+            int EndingBracketsfound = 0;
+
+            foreach (var character in line)
+            {
+                if (character == '}')
+                {
+                    EndingBracketsfound++;
+                }
+            }
+
+            return EndingBracketsfound;
+        }
+
+        protected List<string> StartFindingMethods(List<string> LinesInFile)
         {
             List<string> MethodList = new List<string>();
-            string Method;
+            string Method = "";
 
-            foreach (var line in LinesinFile)
+            foreach (var line in LinesInFile)
             {
+
+                if (line.Contains("Console"))
+                {
+                    continue;
+                }
+
                 Method = FindMethod(line);
-                if (Method != "" || Method != null)
+                if (Method != "" && Method != null)
                 {
                     MethodList.Add(Method);
                 }

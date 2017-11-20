@@ -1,12 +1,12 @@
 ﻿@model CapStonePhase2.Models.Lectures
 
 @{
-    ViewBag.Title = "Methods And Return Values";
+    ViewBag.Title = "Configure Methods & Return Values";
 }
 
-<h2>Methods and Return Values Found</h2>
+<h2>@ViewBag.Title</h2>
 <h4>These Methods were found in the tests created</h4>
-<h4>Please enter the respective return value for each method found</h4>
+<h4>Please enter their respective return value for each method found</h4>
 
 
     @using (Html.BeginForm())
@@ -14,15 +14,17 @@
         @Html.HiddenFor(model => model.Id)
         <div class="form-horizontal">
             <hr/>
-                @foreach (var item in Model.MethodsAndReturnValues)
-                {
+               
                     <div class="form-group">
-                        @Html.LabelFor(modelItem => item.Key, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="control-label col-md-2">
+                            @* Display every method found in code file *@
+                            @Html.DisplayFor(modelItem =>Model)
+                        </div>
                         <div class="col-md-10">
-                            @Html.EditorFor(modelItem => item.Value, new { htmlAttributes = new { @class = "form-control" } })
+                            @* Editor for Return Values *@
+                            @Html.EditorFor(modelItem => Model, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
-                }
         </div>
 
         <div class="form-group">

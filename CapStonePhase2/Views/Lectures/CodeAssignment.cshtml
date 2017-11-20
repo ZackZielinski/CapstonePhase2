@@ -21,7 +21,7 @@
             You will need to implement these Methods with their respective return types in your program: 
         </dt>
         <dd>
-            @foreach (var method in Model.ListOfMethods)
+            @foreach (var method in Model.MethodsAndReturnValues)
             {
               @Html.DisplayFor(modelItem => method)
             }
@@ -42,5 +42,5 @@
    </div>
    @Html.HiddenFor(model => model.StudentId)
    @Html.HiddenFor(model => model.LectureId)
-    <input type="submit" value="Submit" class="btn btn-primary" />
+    <input type="submit" value="Submit" class="btn btn-default" />
 }
