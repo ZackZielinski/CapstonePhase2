@@ -192,17 +192,20 @@ namespace CapStonePhase2.Controllers
                     MethodName = method,
                     Lectureid = id
                 };
+                db.Methods.Add(NewMethod);
             }
 
             db.SaveChanges();
 
-            return View(Lecture);
+            var MethodsInTestCode = db.Methods.Where(x => x.Lectureid == id).ToList();
+
+            return View(MethodsInTestCode);
         }
 
         [HttpPost]
-        public ActionResult ConfiureMethods(Lectures Lecture)
+        public ActionResult ConfigureMethods(List<Methods> MethodsWithReturnValues)
         {
-            var LectureinDB = db.Lectures.Find(Lecture.Id);
+            //var MethodsInTestCode
 
             return RedirectToAction("Index");
         }
