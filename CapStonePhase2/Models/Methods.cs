@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace CapStonePhase2.Models
 {
@@ -18,9 +14,8 @@ namespace CapStonePhase2.Models
         public string ReturnValueType { get; set; }
 
         [ForeignKey("Lectureid")]
-        public Lectures Lecture { get; set; }
+        public Lectures AssociatedLecture { get; set; }
 
         public int Lectureid { get; set; }
-
     }
 }

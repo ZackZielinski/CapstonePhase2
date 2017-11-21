@@ -164,48 +164,58 @@ namespace CapStonePhase2.Controllers
             LectureInDB.CodeFileText = lecture.CodeFileText;
  
             UpdateTestCodeFile(LectureInDB.CodeFileName, LectureInDB.CodeFileText);
-            
+
+
+            List<string> Lines = System.IO.File.ReadAllLines(LectureInDB.CodeFileName).ToList();
+
+            List<string> LinesWithoutMainMethod = FilterOutMainMethod(Lines);
+
+            List<string> ListOfMethodNames = StartFindingMethods(LinesWithoutMainMethod);
+
+
+            InsertNewMethods(ListOfMethodNames, LectureInDB);
+
             db.SaveChanges();
             return RedirectToAction("ConfigureMethods", new { id = LectureInDB.Id });
         }
 
         public ActionResult ConfigureMethods(int id)
         {
-           
-            var Lecture = db.Lectures.Find(id);
+            var MethodsInLectureTest = db.Methods.Where(x => x.Lectureid == id).ToList();
 
-            if(Lecture == null)
+            if (MethodsInLectureTest == null)
             {
                 return HttpNotFound();
             }
 
-            List<string> Lines = System.IO.File.ReadAllLines(Lecture.CodeFileName).ToList();
-
-            List<string> LinesWithoutMainMethod = FilterOutMainMethod(Lines);
-
-            List<string> ListOfMethodNames = StartFindingMethods(LinesWithoutMainMethod);
-
-            foreach(var method in ListOfMethodNames)
-            {
-                Methods NewMethod = new Methods()
-                {
-                    MethodName = method,
-                    Lectureid = id
-                };
-                db.Methods.Add(NewMethod);
-            }
-
-            db.SaveChanges();
-
-            var MethodsInTestCode = db.Methods.Where(x => x.Lectureid == id).ToList();
-
-            return View(MethodsInTestCode);
+            return View(MethodsInLectureTest);
         }
 
         [HttpPost]
-        public ActionResult ConfigureMethods(List<Methods> MethodsWithReturnValues)
+        public ActionResult ConfigureMethods(List<Methods> UpdatedMethods)
         {
-            //var MethodsInTestCode
+            var FirstMethod = UpdatedMethods.FirstOrDefault();
+
+            if(FirstMethod == null)
+            {
+                return HttpNotFound();
+            }
+
+            var MethodsInDB = db.Methods.Where(x => x.Lectureid == FirstMethod.Lectureid).ToList();
+
+            for (int index = 0; index < UpdatedMethods.Count(); index++)
+            {
+                if(MethodsInDB[index].Id == UpdatedMethods[index].Id)
+                {
+                    MethodsInDB[index].ReturnValueType = UpdatedMethods[index].ReturnValueType;
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            }
+
+            db.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -254,6 +264,22 @@ namespace CapStonePhase2.Controllers
             db.Lectures.Remove(lectures);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        protected void InsertNewMethods(List<string> MethodNames, Lectures Lecture)
+        {
+            foreach (var method in MethodNames)
+            {
+                Methods NewMethod = new Methods()
+                {
+                    MethodName = method,
+                    AssociatedLecture = Lecture,
+                    Lectureid = Lecture.Id
+                };
+                db.Methods.Add(NewMethod);
+            }
+
+            db.SaveChanges();
         }
 
         protected static List<string> FilterOutMainMethod(List<string> LinesInFile)

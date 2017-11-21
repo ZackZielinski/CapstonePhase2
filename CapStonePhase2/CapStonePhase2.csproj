@@ -441,6 +441,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="StudentCode\" />
     <Folder Include="TestCode\" />
+    <Folder Include="Views\Lectures1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

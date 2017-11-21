@@ -1,37 +1,39 @@
-﻿@model IEnumerable<CapStonePhase2.Models.Methods>
+﻿@model List<CapStonePhase2.Models.Methods>
 
 @{
     ViewBag.Title = "Configure Methods & Return Values";
 }
 
 <h2>@ViewBag.Title</h2>
-<h4>These Methods were found in the tests created</h4>
+<h4>These Methods were found in the test created</h4>
 <h4>Please enter their respective return value for each method found</h4>
 
 
-    @using (Html.BeginForm())
-    {
-        <div class="form-horizontal">
-            <hr/>
-            @foreach (var item in Model)
-            {
-                    <div class="form-group">
-                        <div class="control-label col-md-2">
-                            @Html.DisplayFor(modelItem => item.MethodName)
-                        </div>
-                        <div class="col-md-10">
-                            @Html.EditorFor(modelItem => item.ReturnValueType, new { htmlAttributes = new { @class = "form-control" } })
-                        </div>
-                    </div>
-            }
-        </div>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <hr />
+        @for(var index = 0; index < Model.Count(); index++)
+        {
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    @Html.DisplayFor(modelItem => modelItem[index].MethodName)
+                </div>
+                <div class="col-md-10">
+                    @Html.EditorFor(modelItem => modelItem[index].ReturnValueType, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            @Html.HiddenFor(modelItem => modelItem[index].Id)
+            @Html.HiddenFor(modelItem => modelItem[index].Lectureid)
+        }
+    </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Add Return Values" class="btn btn-default" />
             </div>
         </div>
-    }
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

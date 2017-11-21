@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CapStonePhase2.Models
 {
@@ -32,7 +32,7 @@ namespace CapStonePhase2.Models
 
         public string CodeFileText { get; set; }
 
-        public ICollection<Methods> MethodsAndReturnValues { get; set; }
+        public List<Methods> MethodsAndReturnValues { get; set; }
 
         public IList<Students_Lectures> Student_Lectures { get; set; }
 
