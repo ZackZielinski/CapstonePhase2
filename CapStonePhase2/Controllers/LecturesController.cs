@@ -85,19 +85,21 @@ namespace CapStonePhase2.Controllers
             StudentAnswers.CodeFileName = CreateNewStudentCodeFile(StudentAnswers);
             StudentAnswers.MethodsAndReturnValues = db.Methods.Where(x => x.Lectureid == lectureid).ToList();
 
+            if(StudentAnswers.CodeFileText == null || StudentAnswers.CodeFileText == "")
+            {
+                StudentAnswers.CodeFileText = CreateMethodTemplate();
+            }
+            
             db.SaveChanges();
             return View(StudentAnswers);
         }
 
         [HttpPost]
-        public ActionResult CodeAssignment(int lectureId, int studentId, string CodeText)
+        public ActionResult CodeAssignment(int lectureId, int studentId, string CodeFileText)
         {
-            var StudentCodeAnswers = db.Students_Lectures.SingleOrDefault(x => x.LectureId == lectureId && x.StudentId == studentId);
+            var StudentCodeAnswers = db.Students_Lectures.Include(x => x.Lecture).SingleOrDefault(x => x.LectureId == lectureId && x.StudentId == studentId);
 
-            StudentCodeAnswers.CodeFileText = CodeText;
-            db.SaveChanges();
-
-            InsertStudentCode(StudentCodeAnswers);
+            InsertStudentCode(StudentCodeAnswers, CodeFileText);
 
             return RedirectToAction("Compiler", new { filename = StudentCodeAnswers.CodeFileName });
         }
@@ -173,7 +175,7 @@ namespace CapStonePhase2.Controllers
 
             LectureInDB.CodeFileText = lecture.CodeFileText;
  
-            UpdateTestCodeFile(LectureInDB.CodeFileName, LectureInDB.CodeFileText);
+            UpdateCodeFile(LectureInDB.CodeFileName, LectureInDB.CodeFileText);
 
 
             List<string> Lines = System.IO.File.ReadAllLines(LectureInDB.CodeFileName).ToList();
@@ -271,6 +273,18 @@ namespace CapStonePhase2.Controllers
             return View(Lecture);
         }
 
+        [HttpPost]
+        public ActionResult LectureTest(Lectures UpdatedTestFile)
+        {
+            var LectureinDB = db.Lectures.Find(UpdatedTestFile.Id);
+
+            LectureinDB.CodeFileText = UpdatedTestFile.CodeFileText;
+            db.SaveChanges();
+            
+            UpdateCodeFile(LectureinDB.CodeFileName, LectureinDB.CodeFileText);
+
+            return RedirectToAction("Index");
+        }
 
         // GET: Lectures/Delete/5
         public ActionResult Delete(int? id)
@@ -289,12 +303,12 @@ namespace CapStonePhase2.Controllers
             return RedirectToAction("Index");
         } 
 
-        protected void InsertStudentCode(Students_Lectures StudentCode)
+        protected void InsertStudentCode(Students_Lectures StudentCode, string CodeFileText)
         {
             var LectureTest = db.Lectures.Find(StudentCode.LectureId);
             List<string> MainMethod = GetMainMethod(LectureTest.CodeFileName);
 
-
+            UpdateCodeFile(StudentCode.CodeFileName, CodeFileText);
             EnterStudentCode(MainMethod, StudentCode.CodeFileName);
             InsertInstructorTests(LectureTest.CodeFileName, StudentCode.CodeFileName);
         }
@@ -346,14 +360,13 @@ namespace CapStonePhase2.Controllers
             StreamWriter CodeFile = new StreamWriter(StudentCodeFileName);
             foreach(var line in MainMethodCode)
             {
-                CodeFile.Write(line);
+                CodeFile.WriteLine(line);
             }
 
             foreach(var line in StudentCode)
             {
-                CodeFile.Write(line);
+                CodeFile.WriteLine(line);
             }
-
             CodeFile.Close();
         }
 
@@ -529,7 +542,7 @@ namespace CapStonePhase2.Controllers
         }
 
 
-        protected void UpdateTestCodeFile(string FileName, string FileText)
+        protected void UpdateCodeFile(string FileName, string FileText)
         {
             var TestCodeFile = new StreamWriter(FileName);
             TestCodeFile.WriteLine(FileText);
@@ -563,13 +576,15 @@ namespace CapStonePhase2.Controllers
 
         protected string CreateNewStudentCodeFile(Students_Lectures AttendingStudent)
         {
+            string NewLine = "\r\n";
             string StudentCodeFilePath = @"C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\StudentCode";
 
             string NewFilePath = $@"{ StudentCodeFilePath }\{AttendingStudent.Student.FirstName}{AttendingStudent.Student.LastName}{AttendingStudent.Lecture.Topic}.cs";
 
+            string MethodTemplate = $"public datatype MethodName() {{ {NewLine} return //insert matching datatype value; {NewLine} }}";
+
             StreamWriter NewFile = new StreamWriter($@"{NewFilePath}");
-            string NewLine = "\r\n";
-            NewFile.WriteLine($"public datatype MethodName(){{ {NewLine} return //insert matching datatype value; {NewLine} }}");
+            NewFile.WriteLine($"{MethodTemplate}");
             NewFile.Close();
 
             return NewFilePath;
@@ -659,6 +674,15 @@ namespace CapStonePhase2.Controllers
             using (var provider = new CSharpCodeProvider())
                 return provider.CompileAssemblyFromSource(parameters, sources);
         }
+
+        protected string CreateMethodTemplate()
+        {
+            string NewLine = "\r\n";
+            string MethodTemplate = $"public datatype MethodName() {{ {NewLine} return //insert matching datatype value; {NewLine} }}";
+
+            return MethodTemplate;
+        }
+
 
         protected override void Dispose(bool disposing)
         {

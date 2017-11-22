@@ -23,21 +23,21 @@
         <dd>
             @foreach (var item in Model.MethodsAndReturnValues)
             {
-              @Html.DisplayFor(modelItem => item.MethodName) <p> with a return Type of a(n) </p> @Html.DisplayFor(modelItem => item.ReturnValueType)
+              @Html.DisplayFor(modelItem => item.MethodName) <p> Return Type: @Html.DisplayFor(modelItem => item.ReturnValueType)</p>
             }
         </dd>
-        <dt>
-            Inserted in the textbox is a generic example of what a method is.
-        </dt>
     </dl>
 </div>
+<p>
+    Inserted in the textbox is a generic example of what a method looks like.
+</p>
 
 @using (Html.BeginForm())
 {
+    @Html.HiddenFor(model => model.StudentId)
+    @Html.HiddenFor(model => model.LectureId)
    <div class="CodeTextBox">
          @Html.TextAreaFor(model => model.CodeFileText, new { value = Model.CodeFileText })
    </div>
-   @Html.HiddenFor(model => model.StudentId)
-   @Html.HiddenFor(model => model.LectureId)
     <input type="submit" value="Compile" class="btn btn-default" />
 }

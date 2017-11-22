@@ -25,14 +25,17 @@ StudentTest.DoesStudentHaveBooleanVariable();
 public class VariableTests
     {
 
+	Program StartStudentMethod = new Program();
+
 public void DoesStudentHaveStringVariable()
         {
             bool IsStudentVariableString = false;
             Type StringVariable = typeof(string);
             Type StudentVariable;
+	    
+	    public string ReturnedString = StartStudentMethod.DisplayName();
 
-            StudentVariable = typeof(Program.DisplayName());
-
+            StudentVariable = typeof(ReturnedString);
 
             if (StudentVariable == StringVariable)
             {
@@ -48,8 +51,10 @@ public void DoesStudentHaveStringVariable()
             bool IsStudentVariableInt = false;
             Type IntVariable = typeof(int);
             Type StudentVariable;
+	    
+	    int ReturnedVariable = StartStudentMethod.DisplayAge();
 
-            StudentVariable = typeof(Program.DisplayAge());
+            StudentVariable = typeof(ReturnedVariable);
 
 
             if (StudentVariable == IntVariable)
@@ -65,8 +70,10 @@ public void DoesStudentHaveStringVariable()
             Type CharVariable = typeof(char);
             Type StudentVariable;
             bool IsStudentVariableChar = false;
+	   
+	    char ReturnedVariable = StartStudentMethod.DisplayLetter();
 
-            StudentVariable = typeof(Program.DisplayLetter());
+            StudentVariable = typeof(ReturnedVariable);
 
             if (StudentVariable == CharVariable)
             {
@@ -83,8 +90,10 @@ public void DoesStudentHaveStringVariable()
             Type DoubleVariable = typeof(double);
             Type StudentVariable;
             bool IsStudentVariableDouble = false;
+	    
+	    double ReturnedVariable = StartStudentMethod.DisplayDouble();
 
-            StudentVariable = typeof(Program.DisplayDouble());
+            StudentVariable = typeof(ReturnedVariable);
 
             if (StudentVariable == DoubleVariable)
             {
@@ -101,8 +110,10 @@ public void DoesStudentHaveStringVariable()
             Type FloatVariable = typeof(float);
             Type StudentVariable;
             bool IsStudentVariableFloat = false;
+	 
+	    float ReturnedVariable = StartStudentMethod.DisplayFloat();
 
-            StudentVariable = typeof(Program.DisplayFloat());
+            StudentVariable = typeof(ReturnedVariable);
 
             if (StudentVariable == FloatVariable)
             {
@@ -118,15 +129,17 @@ public void DoesStudentHaveStringVariable()
             Type BooleanVariable = typeof(bool);
             Type StudentVariable;
             bool IsStudentVariableBoolean = false;
+	   
+	    bool ReturnedVariable = StartStudentMethod.DisplayFunFact();
 
-            StudentVariable = typeof(Program.DisplayFunFact());
+            StudentVariable = typeof(ReturnedVariable);
 
             if (StudentVariable == BooleanVariable)
             {
                 IsStudentVariableBoolean = true;
             }
 
-            Console.WriteLine("Is the Student’s Variable a boolean ?" +IsStudentVariableBoolean);
+            Console.WriteLine("Is the Student’s Variable a boolean?" +IsStudentVariableBoolean);
 
 
         }
