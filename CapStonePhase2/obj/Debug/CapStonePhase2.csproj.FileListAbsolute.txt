@@ -115,3 +115,4 @@ C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapSton
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.addedstringcolumnstogetCSVvaluesofmethodnamesandtheirrespectivereturnvalues.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.refactoredListOfMethodsandListOfReturnValuestolistsandnotonestring.resources
 C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.createdamethodmodelwithmethodnamereturnvalueandlectureforeignKeycolumns.resources
+C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\obj\Debug\CapStonePhase2.Migrations.refactoredmethodstabletoobtainalistofmethodsinStudent_Lectures.resources

@@ -37,6 +37,7 @@ namespace CapStonePhase2.Controllers
             {
                 AttendingStudent.Lectureid = lectureid;
             }
+
             db.SaveChanges();
             return View(PriorStudent);
         }
@@ -74,12 +75,16 @@ namespace CapStonePhase2.Controllers
         
         public ActionResult CodeAssignment(int studentid, int lectureid)
         {
-            var StudentAnswers = db.Students_Lectures.Include(x=>x.Lecture).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
+            var StudentAnswers = db.Students_Lectures.Include(x => x.Lecture).Include(y => y.Student).SingleOrDefault(z => z.StudentId == studentid && z.LectureId == lectureid);
 
             if (StudentAnswers == null)
             {
                 StudentAnswers = NewStudentInLecture(studentid, lectureid);
             }
+
+            StudentAnswers.CodeFileName = CreateNewStudentCodeFile(StudentAnswers);
+            StudentAnswers.MethodsAndReturnValues = db.Methods.Where(x => x.Lectureid == lectureid).ToList();
+
             db.SaveChanges();
             return View(StudentAnswers);
         }
@@ -89,7 +94,12 @@ namespace CapStonePhase2.Controllers
         {
             var StudentCodeAnswers = db.Students_Lectures.SingleOrDefault(x => x.LectureId == lectureId && x.StudentId == studentId);
 
-            return RedirectToAction("Compiler", new { filename = "" });
+            StudentCodeAnswers.CodeFileText = CodeText;
+            db.SaveChanges();
+
+            InsertStudentCode(StudentCodeAnswers);
+
+            return RedirectToAction("Compiler", new { filename = StudentCodeAnswers.CodeFileName });
         }
 
         public ActionResult Compiler(string filename)
@@ -249,6 +259,19 @@ namespace CapStonePhase2.Controllers
             return View(lectures);
         }
 
+        public ActionResult LectureTest(int id)
+        {
+            var Lecture = db.Lectures.Find(id);
+
+            if(Lecture == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return View(Lecture);
+        }
+
+
         // GET: Lectures/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -264,6 +287,113 @@ namespace CapStonePhase2.Controllers
             db.Lectures.Remove(lectures);
             db.SaveChanges();
             return RedirectToAction("Index");
+        } 
+
+        protected void InsertStudentCode(Students_Lectures StudentCode)
+        {
+            var LectureTest = db.Lectures.Find(StudentCode.LectureId);
+            List<string> MainMethod = GetMainMethod(LectureTest.CodeFileName);
+
+
+            EnterStudentCode(MainMethod, StudentCode.CodeFileName);
+            InsertInstructorTests(LectureTest.CodeFileName, StudentCode.CodeFileName);
+        }
+
+        protected void InsertInstructorTests(string InstructorFileName, string StudentFileName)
+        {
+            List<string> AllInstructorText = System.IO.File.ReadAllLines(InstructorFileName).ToList();
+            List<string> FliteredInstructorText = FilterOutMainMethod(AllInstructorText);
+            List<string> InstructorTestMethods = RemoveSystemInCode(FliteredInstructorText);
+
+            StreamWriter StudentFile = new StreamWriter(StudentFileName, true);
+            StudentFile.WriteLine('}');
+
+            foreach(var line in InstructorTestMethods)
+            {
+                StudentFile.Write(line);
+            }
+            StudentFile.Close();
+        }
+
+        protected List<string> RemoveSystemInCode(List<string> InstructorCodeText)
+        {
+            List<string> AllTests = new List<string>();
+            bool FirstLine = true;
+            int semicolons = 0;
+
+            foreach (var line in InstructorCodeText)
+            {
+                if (line.Contains(";") && semicolons == 0)
+                {
+                    semicolons++;
+                    FirstLine = false;
+                    continue;
+                }
+
+                if (FirstLine == false)
+                {
+                    AllTests.Add(line);
+                }
+            }
+
+
+            return AllTests;
+        }
+
+        protected void EnterStudentCode(List<string> MainMethodCode, string StudentCodeFileName)
+        {
+            List<string> StudentCode = System.IO.File.ReadAllLines(StudentCodeFileName).ToList();
+            StreamWriter CodeFile = new StreamWriter(StudentCodeFileName);
+            foreach(var line in MainMethodCode)
+            {
+                CodeFile.Write(line);
+            }
+
+            foreach(var line in StudentCode)
+            {
+                CodeFile.Write(line);
+            }
+
+            CodeFile.Close();
+        }
+
+        public static List<string> GetMainMethod(string FileName)
+        {
+            List<string> LinesInFile = System.IO.File.ReadAllLines(FileName).ToList();
+            List<string> EndingMainMethod = new List<string>();
+            int EndingBrackets = 0;
+            int UnfinishedBrackets = 1;
+            bool EndOfMainMethod = false;
+
+            foreach (var line in LinesInFile)
+            {
+                if (line.Contains('{'))
+                {
+                    UnfinishedBrackets -= FindAllStartingBrackets(line);
+                }
+                if (line.Contains('}'))
+                {
+                    EndingBrackets += FindAllEndingBrackets(line);
+                    UnfinishedBrackets += EndingBrackets;
+                }
+
+                if (UnfinishedBrackets == 0)
+                {
+                    EndOfMainMethod = true;
+                }
+
+                if (UnfinishedBrackets == 1 || EndOfMainMethod == true)
+                {
+                    EndingMainMethod.Add(line);
+                }
+
+                if (EndingBrackets == 1 && EndOfMainMethod == true)
+                {
+                    break;
+                }
+
+            }
+            return EndingMainMethod;
         }
 
         protected void InsertNewMethods(List<string> MethodNames, Lectures Lecture)
@@ -282,7 +412,7 @@ namespace CapStonePhase2.Controllers
             db.SaveChanges();
         }
 
-        protected static List<string> FilterOutMainMethod(List<string> LinesInFile)
+        public static List<string> FilterOutMainMethod(List<string> LinesInFile)
         {
             List<string> LinesWithoutMainMethod = new List<string>();
             int UnfinishedBrackets = 0;
@@ -294,12 +424,13 @@ namespace CapStonePhase2.Controllers
             {
                 if (line.Contains('{'))
                 {
+                    EndingBrackets = 0;
                     UnfinishedBrackets += FindAllStartingBrackets(line);
                 }
 
                 if (line.Contains('}'))
                 {
-                    EndingBrackets = FindAllEndingBrackets(line);
+                    EndingBrackets += FindAllEndingBrackets(line);
                     UnfinishedBrackets -= EndingBrackets;
                 }
 
@@ -430,6 +561,20 @@ namespace CapStonePhase2.Controllers
             return NewFilePath;
         }
 
+        protected string CreateNewStudentCodeFile(Students_Lectures AttendingStudent)
+        {
+            string StudentCodeFilePath = @"C:\Users\Zack\Desktop\C# (Sharp)\CapStonePhase2\CapStonePhase2\StudentCode";
+
+            string NewFilePath = $@"{ StudentCodeFilePath }\{AttendingStudent.Student.FirstName}{AttendingStudent.Student.LastName}{AttendingStudent.Lecture.Topic}.cs";
+
+            StreamWriter NewFile = new StreamWriter($@"{NewFilePath}");
+            string NewLine = "\r\n";
+            NewFile.WriteLine($"public datatype MethodName(){{ {NewLine} return //insert matching datatype value; {NewLine} }}");
+            NewFile.Close();
+
+            return NewFilePath;
+        }
+
         protected Students_Lectures InsertErrors(CompilerErrorCollection results)
         {
             var CurrentUser = User.Identity.GetUserId();
@@ -490,7 +635,6 @@ namespace CapStonePhase2.Controllers
         {
             var AttendingStudent = db.Students.SingleOrDefault(z => z.Id == studentid);
             var SelectedLecture = db.Lectures.SingleOrDefault(z => z.Id == lectureid);
-            AttendingStudent.Lectureid = lectureid;
 
             Students_Lectures StudentInLecture = new Students_Lectures()
             {

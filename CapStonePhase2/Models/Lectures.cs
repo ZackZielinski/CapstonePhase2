@@ -32,8 +32,6 @@ namespace CapStonePhase2.Models
 
         public string CodeFileText { get; set; }
 
-        public List<Methods> MethodsAndReturnValues { get; set; }
-
         public IList<Students_Lectures> Student_Lectures { get; set; }
 
     }

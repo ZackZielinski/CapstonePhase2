@@ -338,6 +338,10 @@
     <Compile Include="Migrations\201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.Designer.cs">
       <DependentUpon>201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711221534443_refactored methods table to obtain a list of methods in Student_Lectures.cs" />
+    <Compile Include="Migrations\201711221534443_refactored methods table to obtain a list of methods in Student_Lectures.Designer.cs">
+      <DependentUpon>201711221534443_refactored methods table to obtain a list of methods in Student_Lectures.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -550,6 +554,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.resx">
       <DependentUpon>201711202057258_created a method model with methodname, returnvalue, and lecture foreignKey columns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711221534443_refactored methods table to obtain a list of methods in Student_Lectures.resx">
+      <DependentUpon>201711221534443_refactored methods table to obtain a list of methods in Student_Lectures.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -21,17 +21,14 @@
             You will need to implement these Methods with their respective return types in your program: 
         </dt>
         <dd>
-            @foreach (var method in Model.MethodsAndReturnValues)
+            @foreach (var item in Model.MethodsAndReturnValues)
             {
-              @Html.DisplayFor(modelItem => method)
+              @Html.DisplayFor(modelItem => item.MethodName) <p> with a return Type of a(n) </p> @Html.DisplayFor(modelItem => item.ReturnValueType)
             }
         </dd>
         <dt>
-            Create a new method by using this template:
+            Inserted in the textbox is a generic example of what a method is.
         </dt>
-        <dd>
-            public datatype MethodName(){ }
-        </dd>
     </dl>
 </div>
 
@@ -42,5 +39,5 @@
    </div>
    @Html.HiddenFor(model => model.StudentId)
    @Html.HiddenFor(model => model.LectureId)
-    <input type="submit" value="Submit" class="btn btn-default" />
+    <input type="submit" value="Compile" class="btn btn-default" />
 }

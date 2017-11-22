@@ -18,7 +18,9 @@ StudentTest.DoesStudentHaveFloatVariable();
 
 StudentTest.DoesStudentHaveBooleanVariable();
 
- } }
+ }
+
+}
 
 public class VariableTests
     {
