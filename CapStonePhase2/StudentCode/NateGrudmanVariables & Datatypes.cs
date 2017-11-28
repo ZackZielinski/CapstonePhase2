@@ -19,8 +19,37 @@ StudentTest.DoesStudentHaveFloatVariable();
 StudentTest.DoesStudentHaveBooleanVariable();
 
  }
+public string DisplayName() { 
+string Name = "Dave";
+ return Name; 
+ }
 
+public int DisplayAge(){
+int Age = 20;
+return Age;
 }
+
+public char DisplayLetter(){
+char FirstInital = 'D';
+return FirstInital;
+}
+
+public double DisplayDouble(){
+double RandomNumber = 25.4;
+return RandomNumber;
+}
+
+public float DisplayFloat(){
+float Wallet = 53;
+return Wallet;
+}
+
+public bool DisplayFunFact(){
+bool IsAwesome = true;
+return IsAwesome;
+}
+}
+
 
 public class VariableTests
 {

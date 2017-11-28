@@ -320,11 +320,10 @@ namespace CapStonePhase2.Controllers
             List<string> InstructorTestMethods = RemoveSystemInCode(FliteredInstructorText);
 
             StreamWriter StudentFile = new StreamWriter(StudentFileName, true);
-            StudentFile.WriteLine('}');
 
             foreach(var line in InstructorTestMethods)
             {
-                StudentFile.Write(line);
+                StudentFile.WriteLine(line);
             }
             StudentFile.Close();
         }
@@ -367,6 +366,8 @@ namespace CapStonePhase2.Controllers
             {
                 CodeFile.WriteLine(line);
             }
+
+            CodeFile.WriteLine("}");
             CodeFile.Close();
         }
 
@@ -404,8 +405,8 @@ namespace CapStonePhase2.Controllers
                 {
                     break;
                 }
-
             }
+
             return EndingMainMethod;
         }
 
